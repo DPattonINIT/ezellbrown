@@ -41,5 +41,6 @@ export const songs = [
       file: "/audio/maxwell_sumthin.mp3",
       cover: "/images/CD_SUMTHIN_1080x1080_lo_res.png",
     },
+    
   ];
   

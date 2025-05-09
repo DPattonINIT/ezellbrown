@@ -1,14 +1,36 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Playfair+Display:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Pacifico&family=Playfair+Display:wght@600&display=swap');
 
-body {
-  font-family: 'Playfair Display', serif;
+/* 🎨 Font Faces */
+@font-face {
+  font-family: 'Asset';
+  src: url('/fonts/Asset-Regular.ttf') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
 }
 
-.fade-in {
-  opacity: 0;
-  animation: fadeIn 1.8s ease-in-out forwards;
-  animation-delay: 0.2s;
+/* 🧠 Font Defaults */
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* ✨ Utility Font Classes */
+.brand-font {
+  font-family: 'Asset', cursive;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-record {
+  animation: spin 3s linear infinite;
 }
 
 
