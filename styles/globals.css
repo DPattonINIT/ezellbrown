@@ -1,24 +1,13 @@
-@import "tailwindcss";
+/* @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Pacifico&family=Playfair+Display:wght@600&display=swap');
 
-/* 🎨 Font Faces */
-@font-face {
-  font-family: 'Asset';
-  src: url('/fonts/Asset-Regular.ttf') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
 
-/* 🧠 Font Defaults */
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'neue-haas-grotesk-display', sans-serif;
+  font-weight: 600; 
 }
 
-/* ✨ Utility Font Classes */
-.brand-font {
-  font-family: 'Asset', cursive;
-}
+
 
 @keyframes spin {
   0% {
@@ -33,5 +22,60 @@ body {
   animation: spin 3s linear infinite;
 }
 
+
+ */
+
+
+
+
+ /* ============================================================ */
+
+ @import "tailwindcss";
+@import url("https://p.typekit.net/p.css?s=1&k=xzt5udg&ht=tk&f=39498&a=4511588&app=typekit&e=css");
+
+body {
+  font-family: "neue-haas-grotesk-display", sans-serif;
+  font-weight: 600;
+  background-color: #000;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* Spinning Record Animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-record {
+  animation: spin 3s linear infinite;
+}
+
+/* Solar Flare Background */
+.solar-flare {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(255, 200, 0, 0.2), transparent 90%);
+  animation: flare 10s infinite alternate;
+  z-index: -1;
+}
+
+@keyframes flare {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+}
 
 
