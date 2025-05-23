@@ -78,4 +78,25 @@ body {
   }
 }
 
+/* styles/globals.css */
+
+.show-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #facc15 #000; /* yellow thumb, black track */
+}
+
+.show-scrollbar::-webkit-scrollbar {
+  height: 8px;
+}
+
+.show-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #facc15; /* yellow */
+  border-radius: 4px;
+}
+
+.show-scrollbar::-webkit-scrollbar-track {
+  background: #000;
+}
+
+
 

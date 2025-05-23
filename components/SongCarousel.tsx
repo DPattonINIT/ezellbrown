@@ -56,9 +56,67 @@
 
 // ========================================= old version above =========================================
 
-"use client";
+// "use client";
 
-import Image from "next/image";
+// import Image from "next/image";
+
+// type Song = {
+//   id: number;
+//   title: string;
+//   cover: string;
+//   file: string;
+// };
+
+// type Props = {
+//   songs: Song[];
+//   onSelectSong: (index: number) => void;
+//   currentSongIndex: number;
+// };
+
+// const SongCarousel = ({ songs, onSelectSong, currentSongIndex }: Props) => {
+//   if (!songs || songs.length === 0) return null;
+
+//   return (
+//     <div className="overflow-x-auto whitespace-nowrap py-4 px-2 mt-4 flex items-center justify-center">
+//       {songs.map((song, index) => (
+//         <div key={song.id || index} className="inline-block text-center mx-2 w-24">
+//           <div
+//             className={`relative w-24 h-24 rounded-lg overflow-hidden cursor-pointer border-4 transition-transform hover:scale-105 hover:opacity-90 ${
+//               index === currentSongIndex
+//                 ? "border-yellow-500 ring-2 ring-yellow-600"
+//                 : "border-white"
+//             }`}
+//             onClick={() => onSelectSong(index)}
+//             title={`Play ${song.title}`}
+//           >
+//             <Image
+//               src={song.cover}
+//               alt={song.title}
+//               fill
+//               className="object-cover"
+//               sizes="96px"
+//               priority={index === currentSongIndex}
+//             />
+//           </div>
+//           <p
+//             className="text-[10px] text-white mt-2 font-semibold leading-tight truncate"
+//             title={song.title}
+//           >
+//             {song.title.split(" - ")[1]?.split("(")[0] || song.title}
+//           </p>
+//         </div>
+//       ))}
+//     </div>
+//   );
+// };
+
+// export default SongCarousel;
+
+// ===============================================================
+'use client';
+
+import Image from 'next/image';
+import { useRef, useEffect } from 'react';
 
 type Song = {
   id: number;
@@ -74,42 +132,66 @@ type Props = {
 };
 
 const SongCarousel = ({ songs, onSelectSong, currentSongIndex }: Props) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scrollToIndex = (index: number) => {
+    const container = scrollRef.current;
+    if (container) {
+      const child = container.children[index] as HTMLElement;
+      if (child) {
+        container.scrollTo({
+          left: child.offsetLeft - container.offsetLeft,
+          behavior: 'smooth',
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    scrollToIndex(currentSongIndex);
+  }, [currentSongIndex]);
+
   if (!songs || songs.length === 0) return null;
 
   return (
-    <div className="overflow-x-auto whitespace-nowrap py-4 px-2 mt-4 flex items-center justify-center">
-      {songs.map((song, index) => (
-        <div key={song.id || index} className="inline-block text-center mx-2 w-24">
+    <div className="w-full mt-4 px-2 overflow-x-auto">
+      <div
+        ref={scrollRef}
+        className="flex gap-4 snap-x snap-mandatory scroll-smooth pb-2 overflow-x-auto show-scrollbar"
+      >
+        {songs.map((song, index) => (
           <div
-            className={`relative w-24 h-24 rounded-lg overflow-hidden cursor-pointer border-4 transition-transform hover:scale-105 hover:opacity-90 ${
-              index === currentSongIndex
-                ? "border-yellow-500 ring-2 ring-yellow-600"
-                : "border-white"
-            }`}
-            onClick={() => onSelectSong(index)}
-            title={`Play ${song.title}`}
+            key={song.id}
+            className="flex-none w-24 sm:w-28 md:w-32 text-center snap-center"
           >
-            <Image
-              src={song.cover}
-              alt={song.title}
-              fill
-              className="object-cover"
-              sizes="96px"
-              priority={index === currentSongIndex}
-            />
+            <div
+              className={`relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-lg overflow-hidden cursor-pointer border-4 transition-transform hover:scale-105 ${
+                index === currentSongIndex
+                  ? 'border-yellow-500 ring-2 ring-yellow-600'
+                  : 'border-white'
+              }`}
+              onClick={() => onSelectSong(index)}
+            >
+              <Image
+                src={song.cover}
+                alt={song.title}
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 96px, (max-width: 768px) 112px, 128px"
+                priority={index === currentSongIndex}
+              />
+            </div>
+            <p
+              className="text-xs sm:text-sm text-white mt-2 font-semibold truncate"
+              title={song.title}
+            >
+              {song.title.split(' - ')[1]?.split('(')[0] || song.title}
+            </p>
           </div>
-          <p
-            className="text-[10px] text-white mt-2 font-semibold leading-tight truncate"
-            title={song.title}
-          >
-            {song.title.split(" - ")[1]?.split("(")[0] || song.title}
-          </p>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
 
 export default SongCarousel;
-
-

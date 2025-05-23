@@ -1,9 +1,10 @@
-// 'use client';
 
-// import { useRef, useState, useEffect } from 'react';
-// import Image from 'next/image';
-// import { songs } from '../utils/songData';
-// import SongCarousel from './SongCarousel';
+// "use client";
+
+// import { useRef, useState, useEffect } from "react";
+// import Image from "next/image";
+// import { songs } from "../utils/songData";
+// import SongCarousel from "./SongCarousel";
 
 // const Player = () => {
 //   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -46,13 +47,13 @@
 //         const playPromise = audioRef.current.play();
 //         if (playPromise !== undefined) {
 //           playPromise.catch((err) => {
-//             console.error('Play error:', err);
+//             console.error("Play error:", err);
 //             setIsPlaying(false);
 //           });
 //         }
 //       }
 //     }
-//   }, [currentIndex, isPlaying]); 
+//   }, [currentIndex, isPlaying]);
 
 //   const handleSongSelect = (index: number) => {
 //     setCurrentIndex(index);
@@ -60,9 +61,9 @@
 //   };
 
 //   return (
-//     <div className="text-center px-4 text-amber-100">
+//     <div className="text-center px-4 text-white">
 //       <div className="relative w-full max-w-sm mx-auto mt-2">
-//         <div className="bg-black border-4 border-yellow-400 rounded-full p-2">
+//         <div className="bg-black  p-2">
 //           <div className="relative w-full aspect-square">
 //             <Image
 //               src={currentSong.cover}
@@ -70,7 +71,7 @@
 //               fill
 //               sizes="(max-width: 768px) 100vw, 384px"
 //               className={`object-cover rounded-full transition-all duration-500 ${
-//                 isPlaying ? 'spin-record' : ''
+//                 isPlaying ? "spin-record" : ""
 //               }`}
 //               priority
 //             />
@@ -78,59 +79,46 @@
 //         </div>
 //       </div>
 
-//       <h1 className="text-xl md:text-3xl font-semibold text-black mt-4 mb-2">{currentSong.title}</h1>
+//       <h1 className="text-xl md:text-3xl font-semibold text-white mt-4 mb-2">
+//         {currentSong.title}
+//       </h1>
 
 //       <div className="flex justify-center items-center gap-4 my-4">
 //         <button
 //           onClick={handlePrev}
-//           className="bg-yellow-100 p-2 rounded-full shadow hover:bg-yellow-300 transition"
+//           className="bg-yellow-500 p-2 rounded-full shadow hover:bg-yellow-600 transition"
 //           title="Previous"
 //         >
 //           <div className="relative w-6 h-6">
-//             <Image 
-//               src="/images/rewind-button.png" 
-//               alt="Previous" 
-//               fill 
-//               sizes="24px"
-//             />
+//             <Image src="/images/rewind-button.png" alt="Previous" fill sizes="24px" />
 //           </div>
 //         </button>
 
 //         {isPlaying ? (
 //           <button
 //             onClick={pauseSong}
-//             className="bg-yellow-100 p-2 rounded-full shadow hover:bg-yellow-300 transition"
+//             className="bg-yellow-500 p-2 rounded-full shadow hover:bg-yellow-600 transition"
 //             title="Pause"
 //           >
 //             <div className="relative w-6 h-6">
-//               <Image 
-//                 src="/images/pause.png" 
-//                 alt="Pause" 
-//                 fill 
-//                 sizes="24px"
-//               />
+//               <Image src="/images/pause.png" alt="Pause" fill sizes="24px" />
 //             </div>
 //           </button>
 //         ) : (
 //           <button
 //             onClick={playSong}
-//             className="bg-yellow-100 p-2 rounded-full shadow hover:bg-yellow-300 transition"
+//             className="bg-yellow-500 p-2 rounded-full shadow hover:bg-yellow-600 transition"
 //             title="Play"
 //           >
 //             <div className="relative w-6 h-6">
-//               <Image 
-//                 src="/images/play.png" 
-//                 alt="Play" 
-//                 fill 
-//                 sizes="24px"
-//               />
+//               <Image src="/images/play.png" alt="Play" fill sizes="24px" />
 //             </div>
 //           </button>
 //         )}
 
 //         <button
 //           onClick={handleNext}
-//           className="bg-yellow-100 p-2 rounded-full shadow hover:bg-yellow-300 transition"
+//           className="bg-yellow-500 p-2 rounded-full shadow hover:bg-yellow-600 transition"
 //           title="Next"
 //         >
 //           <div className="relative w-6 h-6">
@@ -148,15 +136,10 @@
 //           href={currentSong.file}
 //           download
 //           title="Download"
-//           className="bg-yellow-400 p-2 rounded-full shadow hover:bg-yellow-500 transition"
+//           className="bg-yellow-500 p-2 rounded-full shadow hover:bg-yellow-600 transition"
 //         >
 //           <div className="relative w-6 h-6">
-//             <Image 
-//               src="/images/download.png" 
-//               alt="Download" 
-//               fill 
-//               sizes="24px"
-//             />
+//             <Image src="/images/download.png" alt="Download" fill sizes="24px" />
 //           </div>
 //         </a>
 //       </div>
@@ -173,14 +156,13 @@
 // };
 
 // export default Player;
+// ===========================================================================================
+'use client';
 
-// =============================================================================================
-"use client";
-
-import { useRef, useState, useEffect } from "react";
-import Image from "next/image";
-import { songs } from "../utils/songData";
-import SongCarousel from "./SongCarousel";
+import { useRef, useState, useEffect } from 'react';
+import Image from 'next/image';
+import { songs } from '../utils/songData';
+import SongCarousel from './SongCarousel';
 
 const Player = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -206,14 +188,14 @@ const Player = () => {
     if (audioRef.current) {
       audioRef.current.pause();
     }
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % songs.length);
+    setCurrentIndex((prev) => (prev + 1) % songs.length);
   };
 
   const handlePrev = () => {
     if (audioRef.current) {
       audioRef.current.pause();
     }
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + songs.length) % songs.length);
+    setCurrentIndex((prev) => (prev - 1 + songs.length) % songs.length);
   };
 
   useEffect(() => {
@@ -223,7 +205,7 @@ const Player = () => {
         const playPromise = audioRef.current.play();
         if (playPromise !== undefined) {
           playPromise.catch((err) => {
-            console.error("Play error:", err);
+            console.error('Play error:', err);
             setIsPlaying(false);
           });
         }
@@ -237,33 +219,30 @@ const Player = () => {
   };
 
   return (
-    <div className="text-center px-4 text-white">
+    <div className="text-center px-2 sm:px-4 text-white w-full">
       <div className="relative w-full max-w-sm mx-auto mt-2">
-        <div className="bg-black  p-2">
+        <div className="bg-black p-2 rounded-full">
           <div className="relative w-full aspect-square">
             <Image
               src={currentSong.cover}
               alt={currentSong.title}
               fill
               sizes="(max-width: 768px) 100vw, 384px"
-              className={`object-cover rounded-full transition-all duration-500 ${
-                isPlaying ? "spin-record" : ""
-              }`}
+              className={`object-cover rounded-full transition-all duration-500 ${isPlaying ? 'spin-record' : ''}`}
               priority
             />
           </div>
         </div>
       </div>
 
-      <h1 className="text-xl md:text-3xl font-semibold text-white mt-4 mb-2">
+      <h1 className="text-lg sm:text-2xl font-semibold text-white mt-4 mb-2">
         {currentSong.title}
       </h1>
 
-      <div className="flex justify-center items-center gap-4 my-4">
+      <div className="flex justify-center items-center gap-4 flex-wrap my-4">
         <button
           onClick={handlePrev}
           className="bg-yellow-500 p-2 rounded-full shadow hover:bg-yellow-600 transition"
-          title="Previous"
         >
           <div className="relative w-6 h-6">
             <Image src="/images/rewind-button.png" alt="Previous" fill sizes="24px" />
@@ -274,7 +253,6 @@ const Player = () => {
           <button
             onClick={pauseSong}
             className="bg-yellow-500 p-2 rounded-full shadow hover:bg-yellow-600 transition"
-            title="Pause"
           >
             <div className="relative w-6 h-6">
               <Image src="/images/pause.png" alt="Pause" fill sizes="24px" />
@@ -284,7 +262,6 @@ const Player = () => {
           <button
             onClick={playSong}
             className="bg-yellow-500 p-2 rounded-full shadow hover:bg-yellow-600 transition"
-            title="Play"
           >
             <div className="relative w-6 h-6">
               <Image src="/images/play.png" alt="Play" fill sizes="24px" />
@@ -295,7 +272,6 @@ const Player = () => {
         <button
           onClick={handleNext}
           className="bg-yellow-500 p-2 rounded-full shadow hover:bg-yellow-600 transition"
-          title="Next"
         >
           <div className="relative w-6 h-6">
             <Image
@@ -311,7 +287,6 @@ const Player = () => {
         <a
           href={currentSong.file}
           download
-          title="Download"
           className="bg-yellow-500 p-2 rounded-full shadow hover:bg-yellow-600 transition"
         >
           <div className="relative w-6 h-6">

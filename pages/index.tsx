@@ -73,26 +73,47 @@
 
 // ==========================================================Black Version above======================================
 
+// import MailingListForm from "@/components/MailingListForm";
+// import Player from "@/components/Player";
+
+// export default function Home() {
+//   return (
+//     <main className="relative min-h-screen flex flex-col items-center justify-center px-4 py-12">
+//       {/* Solar Flare Background */}
+//       <div className="solar-flare"></div>
+
+//       {/* Site Title */}
+//       <h1 className="text-5xl md:text-6xl font-bolder mb-8 text-center tracking-wide">
+//         EZELL BROWN
+//       </h1>
+
+//       {/* Content Container */}
+//       <div className="w-full max-w-4xl bg-black bg-opacity-70 backdrop-blur-md p-6 rounded-xl shadow-2xl ">
+//         <Player />
+//         <MailingListForm />
+//       </div>
+//     </main>
+//   );
+// }
+
+// =========================================================
+
 import MailingListForm from "@/components/MailingListForm";
 import Player from "@/components/Player";
 
 export default function Home() {
   return (
     <main className="relative min-h-screen flex flex-col items-center justify-center px-4 py-12">
-      {/* Solar Flare Background */}
-      <div className="solar-flare"></div>
+      <div className="solar-flare absolute inset-0 z-0"></div>
 
-      {/* Site Title */}
-      <h1 className="text-5xl md:text-6xl font-bolder mb-8 text-center tracking-wide">
+      <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-8 text-center tracking-wide z-10">
         EZELL BROWN
       </h1>
 
-      {/* Content Container */}
-      <div className="w-full max-w-4xl bg-black bg-opacity-70 backdrop-blur-md p-6 rounded-xl shadow-2xl ">
+      <div className="w-full max-w-4xl bg-black bg-opacity-70 backdrop-blur-md p-4 sm:p-6 rounded-xl shadow-2xl z-10">
         <Player />
         <MailingListForm />
       </div>
     </main>
   );
 }
-

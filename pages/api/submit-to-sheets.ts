@@ -40,15 +40,15 @@ export default async function handler(
     console.log('Successfully submitted to sheets');
 
     return res.status(200).json({ success: true, message: 'Submission successful' });
-  } catch (error: any) {
-    console.error('Error handling form submission:', error);
-    
-    // More detailed error message
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    
-    return res.status(500).json({ 
-      error: 'Internal Server Error', 
-      details: errorMessage 
-    });
-  }
+  } catch (error) {
+  console.error('Error handling form submission:', error);
+
+  const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+
+  return res.status(500).json({ 
+    error: 'Internal Server Error',
+    details: errorMessage,
+  });
+}
+
 }
