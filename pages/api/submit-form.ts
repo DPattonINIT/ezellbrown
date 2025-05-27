@@ -17,6 +17,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const smtpUser = process.env.NEXT_PUBLIC_SMTP_USER;
   const smtpPass = process.env.NEXT_PUBLIC_SMTP_PASS;
+  console.log('SMTP User:', smtpUser);
+  console.log('SMTP Pass:', smtpPass);
 
   if (!smtpUser || !smtpPass) {
     console.error('Missing SMTP credentials');
