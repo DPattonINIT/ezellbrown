@@ -102,7 +102,7 @@ const MailingListForm = () => {
     e.preventDefault();
     setStatus('loading');
     setMessage('');
-
+    console.log('Submitting mailing list form:', { name, email });
     try {
       const res = await fetch('/api/submit-form', {
         method: 'POST',
