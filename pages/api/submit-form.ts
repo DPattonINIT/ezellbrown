@@ -4,6 +4,7 @@ import { submitToSheets } from '@/utils/submit-to-sheets';
 import nodemailer from 'nodemailer';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  console.log("API IS Running");
   if (req.method !== 'POST') return res.status(405).end('Method Not Allowed');
 
   const { name, email } = req.body;
@@ -17,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const smtpUser = process.env.NEXT_PUBLIC_SMTP_USER;
   const smtpPass = process.env.NEXT_PUBLIC_SMTP_PASS;
-  console.log("Test");
+
   console.log('SMTP User:', smtpUser);
   console.log('SMTP Pass:', smtpPass);
 
