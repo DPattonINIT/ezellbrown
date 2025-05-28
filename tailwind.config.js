@@ -8,7 +8,7 @@ module.exports = {
     extend: {
       fontFamily: {
   sans: ['"neue-haas-grotesk-display"', 'sans-serif'],
-  haas: ['"neue-haas-grotesk-display"', 'sans-serif'], // optional alias
+  haas: ['"neue-haas-grotesk-display"', 'sans-serif'], 
 },
 
       colors: {

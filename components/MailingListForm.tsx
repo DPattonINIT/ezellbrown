@@ -159,7 +159,7 @@ const MailingListForm = () => {
 
         <button
           type="submit"
-          className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 rounded-md transition mt-2"
+          className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 rounded-md transition mt-2 uppercase"
           disabled={status === 'loading'}
         >
           {status === 'loading' ? 'Submitting...' : 'Submit'}
