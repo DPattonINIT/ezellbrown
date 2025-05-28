@@ -55,9 +55,9 @@
 // export default SongCarousel;
 
 // ========================================= old version above =========================================
-
 "use client";
 
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 
 type Song = {
@@ -76,10 +76,32 @@ type Props = {
 const SongCarousel = ({ songs, onSelectSong, currentSongIndex }: Props) => {
   if (!songs || songs.length === 0) return null;
 
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const songRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Scroll selected song into center view
+  useEffect(() => {
+    const current = songRefs.current[currentSongIndex];
+    if (current && containerRef.current) {
+      current.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest",
+      });
+    }
+  }, [currentSongIndex]);
+
   return (
-    <div className="overflow-x-auto whitespace-nowrap py-4 px-2 mt-4 flex items-center justify-center">
+    <div
+      ref={containerRef}
+      className="overflow-x-auto whitespace-nowrap py-4 px-2 mt-4 flex items-center scroll-smooth"
+    >
       {songs.map((song, index) => (
-        <div key={song.id || index} className="inline-block text-center mx-2 w-24">
+        <div
+          key={song.id || index}
+          ref={(el) => (songRefs.current[index] = el)}
+          className="inline-block text-center mx-2 w-24 flex-shrink-0"
+        >
           <div
             className={`relative w-24 h-24 rounded-lg overflow-hidden cursor-pointer border-4 transition-transform hover:scale-105 hover:opacity-90 ${
               index === currentSongIndex
@@ -111,6 +133,7 @@ const SongCarousel = ({ songs, onSelectSong, currentSongIndex }: Props) => {
 };
 
 export default SongCarousel;
+
 
 // ===============================================================
 // "use client";
