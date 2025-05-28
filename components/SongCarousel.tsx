@@ -74,12 +74,10 @@ type Props = {
 };
 
 const SongCarousel = ({ songs, onSelectSong, currentSongIndex }: Props) => {
-  if (!songs || songs.length === 0) return null;
-
+  // Always call hooks first
   const containerRef = useRef<HTMLDivElement | null>(null);
   const songRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Scroll selected song into center view
   useEffect(() => {
     const current = songRefs.current[currentSongIndex];
     if (current && containerRef.current) {
@@ -90,6 +88,9 @@ const SongCarousel = ({ songs, onSelectSong, currentSongIndex }: Props) => {
       });
     }
   }, [currentSongIndex]);
+
+  // Then conditionally render
+  if (!songs || songs.length === 0) return null;
 
   return (
     <div
