@@ -319,12 +319,16 @@ const Player = () => {
 
   const playSong = () => {
     if (audioRef.current) {
-      audioRef.current.play().then(() => {
-        setIsPlaying(true);
-      }).catch((err) => {
-        console.error('Play error:', err);
-        setIsPlaying(false);
-      });
+      audioRef.current.load(); // ensure new audio is loaded
+      audioRef.current
+        .play()
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch((err) => {
+          console.error('Play error:', err);
+          setIsPlaying(false);
+        });
     }
   };
 
@@ -336,37 +340,29 @@ const Player = () => {
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % songs.length);
-    setIsPlaying(true); // ensure autoplay on next
+    const nextIndex = (currentIndex + 1) % songs.length;
+    setCurrentIndex(nextIndex);
+    setTimeout(() => {
+      playSong();
+    }, 100); // delay helps with iOS playback
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + songs.length) % songs.length);
-    setIsPlaying(true); // ensure autoplay on prev
+    const prevIndex = (currentIndex - 1 + songs.length) % songs.length;
+    setCurrentIndex(prevIndex);
+    setTimeout(() => {
+      playSong();
+    }, 100);
   };
 
   const handleSongSelect = (index: number) => {
     setCurrentIndex(index);
-    setIsPlaying(true);
+    setTimeout(() => {
+      playSong();
+    }, 100);
   };
 
-  // Load new song and auto-play if needed
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.load();
-      if (isPlaying) {
-        const playPromise = audioRef.current.play();
-        if (playPromise !== undefined) {
-          playPromise.catch((err) => {
-            console.error('Play error:', err);
-            setIsPlaying(false);
-          });
-        }
-      }
-    }
-  }, [currentIndex]);
-
-  // Setup Media Session Metadata
+  // Setup Media Session metadata on song change
   useEffect(() => {
     if ('mediaSession' in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({
@@ -395,7 +391,9 @@ const Player = () => {
               alt={currentSong.title}
               fill
               sizes="(max-width: 768px) 100vw, 384px"
-              className={`object-cover rounded-full transition-all duration-500 ${isPlaying ? 'spin-record' : ''}`}
+              className={`object-cover rounded-full transition-all duration-500 ${
+                isPlaying ? 'spin-record' : ''
+              }`}
               priority
             />
           </div>
