@@ -47,14 +47,15 @@ const SongCarousel = ({ songs, onSelectSong, currentSongIndex }: Props) => {
           className="inline-block text-center mx-2 w-24 flex-shrink-0"
         >
           <div
-            className={`relative w-24 h-24 rounded-lg overflow-hidden cursor-pointer border-4 transition-transform hover:scale-105 hover:opacity-90 ${
-              index === currentSongIndex
-                ? "border-yellow-500 ring-2 ring-yellow-600"
-                : "border-white"
-            }`}
-            onClick={() => onSelectSong(index)}
-            title={`Play ${song.title}`}
-          >
+  className={`relative w-24 h-24 rounded-lg overflow-hidden cursor-pointer border-4 transition-transform hover:scale-105 hover:opacity-90 ${
+    index === currentSongIndex
+      ? "border-ezellYellow ring-ezellYellow"
+      : "border-white"
+  }`}
+  onClick={() => onSelectSong(index)}
+  title={`Play ${song.title}`}
+>
+
             <Image
               src={song.cover}
               alt={song.title}

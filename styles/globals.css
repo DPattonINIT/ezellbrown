@@ -78,11 +78,11 @@ body {
   }
 }
 
-/* styles/globals.css */
+
 
 .show-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #facc15 #000; /* yellow thumb, black track */
+  scrollbar-color: #f3eb00 #000; 
 }
 
 .show-scrollbar::-webkit-scrollbar {
@@ -90,12 +90,31 @@ body {
 }
 
 .show-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #facc15; /* yellow */
+  background-color: #f3eb00; 
   border-radius: 4px;
 }
 
 .show-scrollbar::-webkit-scrollbar-track {
   background: #000;
+}
+
+.ezellYellow{
+    background-color: #f3eb00;
+  color: black; 
+  transition: background-color 0.2s ease;
+}
+
+.ezellYellow:hover {
+  background-color: #d6ce00; 
+  color: black; 
+}
+
+.border-ezellYellow {
+  border-color: #f3eb00;
+}
+
+.ring-ezellYellow {
+  box-shadow: 0 0 0 2px #d6ce00; 
 }
 
 
