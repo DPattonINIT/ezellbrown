@@ -13,8 +13,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ error: 'Missing name or email' });
   }
 
-  // const smtpUser = process.env.SMTP_USER;
-  // const smtpPass = process.env.SMTP_PASS;
 
 const smtpUser = process.env.SMTP_USER;
 const smtpPass = process.env.SMTP_PASS;
