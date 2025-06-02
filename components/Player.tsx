@@ -315,20 +315,30 @@ const Player = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const currentSong = songs[currentIndex];
 
-  const playSong = () => {
-    if (audioRef.current) {
-      audioRef.current.load(); // ensure new audio is loaded
-      audioRef.current
-        .play()
-        .then(() => {
-          setIsPlaying(true);
-        })
-        .catch((err) => {
-          console.error('Play error:', err);
-          setIsPlaying(false);
-        });
+  const playSong = async () => {
+    if (audioRef.current && !isLoading) {
+      try {
+        setIsLoading(true);
+        // Don't call load() unless the src actually changed
+        await audioRef.current.play();
+        setIsPlaying(true);
+        
+        // Update playback state for Media Session
+        if ('mediaSession' in navigator) {
+          navigator.mediaSession.playbackState = 'playing';
+        }
+      } catch (err) {
+        console.error('Play error:', err);
+        setIsPlaying(false);
+        if ('mediaSession' in navigator) {
+          navigator.mediaSession.playbackState = 'paused';
+        }
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -336,33 +346,77 @@ const Player = () => {
     if (audioRef.current) {
       audioRef.current.pause();
       setIsPlaying(false);
+      
+      // Update playback state for Media Session
+      if ('mediaSession' in navigator) {
+        navigator.mediaSession.playbackState = 'paused';
+      }
+    }
+  };
+
+  const changeSong = async (newIndex: number) => {
+    if (audioRef.current) {
+      const wasPlaying = isPlaying;
+      
+      // Pause current song
+      audioRef.current.pause();
+      setIsPlaying(false);
+      setIsLoading(true);
+      
+      // Change the index
+      setCurrentIndex(newIndex);
+      
+      // Wait for the audio element to update with new src
+      // The useEffect will handle updating the src
+      if (wasPlaying) {
+        // Small delay to ensure src is updated
+        setTimeout(async () => {
+          if (audioRef.current) {
+            try {
+              await audioRef.current.play();
+              setIsPlaying(true);
+              if ('mediaSession' in navigator) {
+                navigator.mediaSession.playbackState = 'playing';
+              }
+            } catch (err) {
+              console.error('Auto-play error after track change:', err);
+              setIsPlaying(false);
+              if ('mediaSession' in navigator) {
+                navigator.mediaSession.playbackState = 'paused';
+              }
+            }
+          }
+          setIsLoading(false);
+        }, 100);
+      } else {
+        setIsLoading(false);
+      }
     }
   };
 
   const handleNext = () => {
     const nextIndex = (currentIndex + 1) % songs.length;
-    setCurrentIndex(nextIndex);
-    setTimeout(() => {
-      playSong();
-    }, 100); // delay helps with iOS playback
+    changeSong(nextIndex);
   };
 
   const handlePrev = () => {
     const prevIndex = (currentIndex - 1 + songs.length) % songs.length;
-    setCurrentIndex(prevIndex);
-    setTimeout(() => {
-      playSong();
-    }, 100);
+    changeSong(prevIndex);
   };
 
   const handleSongSelect = (index: number) => {
-    setCurrentIndex(index);
-    setTimeout(() => {
-      playSong();
-    }, 100);
+    changeSong(index);
   };
 
-  // Setup Media Session metadata on song change
+  // Update audio src when currentIndex changes
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.src = currentSong.file;
+      audioRef.current.load();
+    }
+  }, [currentIndex, currentSong.file]);
+
+  // Setup Media Session metadata and handlers
   useEffect(() => {
     if ('mediaSession' in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({
@@ -374,12 +428,73 @@ const Player = () => {
         ],
       });
 
-      navigator.mediaSession.setActionHandler('play', playSong);
-      navigator.mediaSession.setActionHandler('pause', pauseSong);
-      navigator.mediaSession.setActionHandler('previoustrack', handlePrev);
-      navigator.mediaSession.setActionHandler('nexttrack', handleNext);
+      // Set playback state
+      navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+
+      // Action handlers - these need to be set every time
+      navigator.mediaSession.setActionHandler('play', () => {
+        playSong();
+      });
+      
+      navigator.mediaSession.setActionHandler('pause', () => {
+        pauseSong();
+      });
+      
+      navigator.mediaSession.setActionHandler('previoustrack', () => {
+        handlePrev();
+      });
+      
+      navigator.mediaSession.setActionHandler('nexttrack', () => {
+        handleNext();
+      });
+
+      // Optional: Add seek handlers if you want scrubbing support
+      navigator.mediaSession.setActionHandler('seekto', (details) => {
+        if (audioRef.current && details.seekTime !== undefined) {
+          audioRef.current.currentTime = details.seekTime;
+        }
+      });
     }
-  }, [currentSong]);
+  }, [currentSong, isPlaying]);
+
+  // Handle audio events
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const handleLoadStart = () => setIsLoading(true);
+    const handleCanPlay = () => setIsLoading(false);
+    const handlePlay = () => {
+      setIsPlaying(true);
+      if ('mediaSession' in navigator) {
+        navigator.mediaSession.playbackState = 'playing';
+      }
+    };
+    const handlePause = () => {
+      setIsPlaying(false);
+      if ('mediaSession' in navigator) {
+        navigator.mediaSession.playbackState = 'paused';
+      }
+    };
+    const handleEnded = () => {
+      setIsPlaying(false);
+      handleNext();
+    };
+
+    audio.addEventListener('loadstart', handleLoadStart);
+    audio.addEventListener('canplay', handleCanPlay);
+    audio.addEventListener('play', handlePlay);
+    audio.addEventListener('pause', handlePause);
+    audio.addEventListener('ended', handleEnded);
+
+    return () => {
+      audio.removeEventListener('loadstart', handleLoadStart);
+      audio.removeEventListener('canplay', handleCanPlay);
+      audio.removeEventListener('play', handlePlay);
+      audio.removeEventListener('pause', handlePause);
+      audio.removeEventListener('ended', handleEnded);
+    };
+  }, []);
 
   return (
     <div className="text-center px-2 sm:px-4 text-white w-full">
@@ -396,6 +511,11 @@ const Player = () => {
               }`}
               priority
             />
+            {isLoading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full">
+                <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -405,27 +525,43 @@ const Player = () => {
       </h1>
 
       <div className="flex justify-center items-center gap-4 flex-wrap my-4">
-        <button onClick={handlePrev} className="ezellYellow p-2 rounded-full shadow transition">
+        <button 
+          onClick={handlePrev} 
+          disabled={isLoading}
+          className="ezellYellow p-2 rounded-full shadow transition disabled:opacity-50"
+        >
           <div className="relative w-6 h-6">
             <Image src="/images/rewind-button.png" alt="Previous" fill sizes="24px" />
           </div>
         </button>
 
         {isPlaying ? (
-          <button onClick={pauseSong} className="ezellYellow p-2 rounded-full shadow transition">
+          <button 
+            onClick={pauseSong} 
+            disabled={isLoading}
+            className="ezellYellow p-2 rounded-full shadow transition disabled:opacity-50"
+          >
             <div className="relative w-6 h-6">
               <Image src="/images/pause.png" alt="Pause" fill sizes="24px" />
             </div>
           </button>
         ) : (
-          <button onClick={playSong} className="ezellYellow p-2 rounded-full shadow transition">
+          <button 
+            onClick={playSong} 
+            disabled={isLoading}
+            className="ezellYellow p-2 rounded-full shadow transition disabled:opacity-50"
+          >
             <div className="relative w-6 h-6">
               <Image src="/images/play.png" alt="Play" fill sizes="24px" />
             </div>
           </button>
         )}
 
-        <button onClick={handleNext} className="ezellYellow p-2 rounded-full shadow transition">
+        <button 
+          onClick={handleNext} 
+          disabled={isLoading}
+          className="ezellYellow p-2 rounded-full shadow transition disabled:opacity-50"
+        >
           <div className="relative w-6 h-6">
             <Image
               src="/images/rewind-button.png"
@@ -454,7 +590,6 @@ const Player = () => {
         ref={audioRef}
         src={currentSong.file}
         preload="auto"
-        onEnded={handleNext}
       />
     </div>
   );
