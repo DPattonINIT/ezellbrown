@@ -304,7 +304,6 @@
 // ===========================================================continous playback above=========================
 
 // ==============================================================
-
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
@@ -320,8 +319,12 @@ const Player = () => {
 
   const playSong = () => {
     if (audioRef.current) {
-      audioRef.current.play();
-      setIsPlaying(true);
+      audioRef.current.play().then(() => {
+        setIsPlaying(true);
+      }).catch((err) => {
+        console.error('Play error:', err);
+        setIsPlaying(false);
+      });
     }
   };
 
@@ -334,12 +337,20 @@ const Player = () => {
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev + 1) % songs.length);
+    setIsPlaying(true); // ensure autoplay on next
   };
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev - 1 + songs.length) % songs.length);
+    setIsPlaying(true); // ensure autoplay on prev
   };
 
+  const handleSongSelect = (index: number) => {
+    setCurrentIndex(index);
+    setIsPlaying(true);
+  };
+
+  // Load new song and auto-play if needed
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.load();
@@ -353,19 +364,17 @@ const Player = () => {
         }
       }
     }
+  }, [currentIndex]);
 
-    // ✅ Media Session API for Lock Screen / Media Controls
+  // Setup Media Session Metadata
+  useEffect(() => {
     if ('mediaSession' in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({
         title: currentSong.title,
-        // artist: 'Ezell Brown', 
-        album: 'MAX WELL MIX',   // Optional
+        artist: 'Ezell Brown',
+        album: 'MAXWELL MIX',
         artwork: [
-          {
-            src: currentSong.cover,
-            sizes: '512x512',
-            type: 'image/jpeg',
-          },
+          { src: currentSong.cover, sizes: '512x512', type: 'image/jpeg' },
         ],
       });
 
@@ -374,12 +383,7 @@ const Player = () => {
       navigator.mediaSession.setActionHandler('previoustrack', handlePrev);
       navigator.mediaSession.setActionHandler('nexttrack', handleNext);
     }
-  }, [currentIndex, isPlaying]);
-
-  const handleSongSelect = (index: number) => {
-    setCurrentIndex(index);
-    setIsPlaying(true);
-  };
+  }, [currentSong]);
 
   return (
     <div className="text-center px-2 sm:px-4 text-white w-full">
@@ -403,39 +407,27 @@ const Player = () => {
       </h1>
 
       <div className="flex justify-center items-center gap-4 flex-wrap my-4">
-        <button
-          onClick={handlePrev}
-          className="ezellYellow p-2 rounded-full shadow transition"
-        >
+        <button onClick={handlePrev} className="ezellYellow p-2 rounded-full shadow transition">
           <div className="relative w-6 h-6">
             <Image src="/images/rewind-button.png" alt="Previous" fill sizes="24px" />
           </div>
         </button>
 
         {isPlaying ? (
-          <button
-            onClick={pauseSong}
-            className="ezellYellow p-2 rounded-full shadow transition"
-          >
+          <button onClick={pauseSong} className="ezellYellow p-2 rounded-full shadow transition">
             <div className="relative w-6 h-6">
               <Image src="/images/pause.png" alt="Pause" fill sizes="24px" />
             </div>
           </button>
         ) : (
-          <button
-            onClick={playSong}
-            className="ezellYellow p-2 rounded-full shadow transition"
-          >
+          <button onClick={playSong} className="ezellYellow p-2 rounded-full shadow transition">
             <div className="relative w-6 h-6">
               <Image src="/images/play.png" alt="Play" fill sizes="24px" />
             </div>
           </button>
         )}
 
-        <button
-          onClick={handleNext}
-          className="ezellYellow p-2 rounded-full shadow transition"
-        >
+        <button onClick={handleNext} className="ezellYellow p-2 rounded-full shadow transition">
           <div className="relative w-6 h-6">
             <Image
               src="/images/rewind-button.png"
@@ -447,11 +439,7 @@ const Player = () => {
           </div>
         </button>
 
-        <a
-          href={currentSong.file}
-          download
-          className="ezellYellow p-2 rounded-full shadow transition"
-        >
+        <a href={currentSong.file} download className="ezellYellow p-2 rounded-full shadow transition">
           <div className="relative w-6 h-6">
             <Image src="/images/download.png" alt="Download" fill sizes="24px" />
           </div>
