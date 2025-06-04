@@ -803,8 +803,8 @@ const Player = () => {
           value={progress}
           step="0.1"
           onChange={handleSeek}
-          className="w-full "
-          style={{ accentColor: '#FFD700' }}
+          className="custom-slider w-full "
+          // style={{ accentColor: '#FFD700' }}
         />
       </div>
 

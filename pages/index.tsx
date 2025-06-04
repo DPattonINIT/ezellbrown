@@ -1,10 +1,13 @@
 import MailingListForm from "@/components/MailingListForm";
 import Player from "@/components/Player";
+import Sidebar from "@/components/Sidebar";
 import Image from 'next/image';
 
 
 export default function Home() {
   return (
+     <div className="flex">
+      <Sidebar />
     <main className="relative min-h-screen flex flex-col items-center justify-center px-4 py-8 sm:py-12 bg-black">
 
 
@@ -42,5 +45,6 @@ export default function Home() {
         </div>
       </div>
     </main>
+    </div>
   );
 }

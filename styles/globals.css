@@ -118,6 +118,52 @@ body {
 }
 
 
+.custom-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: #f3eb00;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* For Chrome, Edge, Safari */
+.custom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 16px;
+  width: 16px;
+  background: #f3eb00;
+  border-radius: 50%;
+  margin-top: -5px; /* to align vertically */
+  cursor: pointer;
+}
+
+/* For Firefox */
+.custom-slider::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  background: #f3eb00;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.custom-slider::-moz-range-track {
+  background: #f3eb00;
+  height: 6px;
+}
+
+/* Optional: remove the focus outline */
+.custom-slider:focus {
+  outline: none;
+}
+
+
+/* Sidebar text hover */
+.hover-text-yellow:hover {
+  color: #f3eb00;
+}
 
 
 
