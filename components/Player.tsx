@@ -803,7 +803,8 @@ const Player = () => {
           value={progress}
           step="0.1"
           onChange={handleSeek}
-          className="w-full accent-yellow-400"
+          className="w-full "
+          style={{ accentColor: '#FFD700' }}
         />
       </div>
 
