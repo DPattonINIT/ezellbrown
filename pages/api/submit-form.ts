@@ -38,13 +38,6 @@ const smtpPass = process.env.SMTP_PASS;
       },
     });
 
-    // Welcome email to user
-    // await transporter.sendMail({
-    //   from: `"Ezell Brown" <${smtpUser}>`,
-    //   to: email,
-    //   subject: 'Welcome to Our Email List!',
-    //   html: `<p>Hi ${name},</p><p>Thanks for signing up for our mailing list!</p>`,
-    // });
 
     // Notification to yourself
     await transporter.sendMail({
