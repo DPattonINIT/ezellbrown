@@ -1,4 +1,3 @@
-
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { submitToSheets } from '@/utils/submit-to-sheets';
 import nodemailer from 'nodemailer';
@@ -13,9 +12,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ error: 'Missing name or email' });
   }
 
-
-const smtpUser = process.env.SMTP_USER;
-const smtpPass = process.env.SMTP_PASS;
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
 
   console.log('SMTP User:', smtpUser);
   console.log('SMTP Pass:', smtpPass);
@@ -26,8 +24,8 @@ const smtpPass = process.env.SMTP_PASS;
   }
 
   try {
-    // Submit to Google Sheets
-    await submitToSheets(name, email);
+    // Specify 'mailing' type here
+    await submitToSheets(name, email, '', 'mailing');
 
     // Setup email transporter
     const transporter = nodemailer.createTransport({
@@ -37,7 +35,6 @@ const smtpPass = process.env.SMTP_PASS;
         pass: smtpPass,
       },
     });
-
 
     // Notification to yourself
     await transporter.sendMail({
