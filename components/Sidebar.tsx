@@ -39,8 +39,8 @@ const Sidebar = () => {
                 className={`fixed top-0 left-0 h-full w-60 bg-black z-40 transform transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}
             >
-                <nav className="flex flex-col items-center  py-60 space-y-6">
-                    {['HOME', 'INFO', 'EVENTS', 'BOOKING'].map((item) => (
+                <nav className="flex flex-col items-center  py-30 space-y-6">
+                    {['HOME','MUSIC', 'INFO', 'EVENTS', 'BOOKING'].map((item) => (
                         <Link
                             key={item}
                             href={item === 'HOME' ? '/' : `/${item.toLowerCase()}`}

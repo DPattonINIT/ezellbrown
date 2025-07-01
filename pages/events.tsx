@@ -1,39 +1,206 @@
-import Sidebar from "@/components/Sidebar";
+// import { useEffect, useState } from 'react';
+// import { supabase } from '@/lib/supabase';
+// import Image from 'next/image';
+// import Link from 'next/link';
+// import Sidebar from '@/components/Sidebar';
+
+// type Event = {
+//   id: string;
+//   title: string;
+//   location: string;
+//   date: string;
+//   link: string;
+//   image_url: string;
+// };
+
+// const EventsPage = () => {
+//   const [events, setEvents] = useState<Event[]>([]);
+//   const [loading, setLoading] = useState(true);
+
+//   useEffect(() => {
+//     const fetchEvents = async () => {
+//       const { data, error } = await supabase
+//         .from('events')
+//         .select('*')
+//         .order('date', { ascending: true });
+
+//       if (error) {
+//         console.error('Error fetching events:', error);
+//       } else {
+//         setEvents(data || []);
+//       }
+//       setLoading(false);
+//     };
+
+//     fetchEvents();
+//   }, []);
+
+//   return (
+//     <div className="min-h-screen bg-black text-white px-4 py-10">
+//       <Sidebar />
+//       <div className="max-w-6xl mx-auto">
+//         <h1 className="text-4xl md:text-5xl font-bold mb-12 border-b pb-4 border-gray-700 text-center">
+//           UPCOMING EVENTS
+//         </h1>
+
+//         {loading ? (
+//           <p className="text-gray-400">Loading...</p>
+//         ) : events.length === 0 ? (
+//           <p className="text-gray-400">No events yet. Stay tuned.</p>
+//         ) : (
+//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+//             {events.map((event) => (
+//               <div
+//                 key={event.id}
+//                 className="bg-[#1a1a1a] rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition duration-300"
+//               >
+//                 {event.image_url && (
+//                   <div className="relative w-full h-60">
+//                     <Image
+//                       src={event.image_url}
+//                       alt={event.title}
+//                       fill
+//                       className="object-cover"
+//                       sizes="(max-width: 768px) 100vw, 33vw"
+//                     />
+//                   </div>
+//                 )}
+
+//                 <div className="p-6">
+//                   <h2 className="text-2xl font-bold mb-1">{event.title}</h2>
+//                   <p className="text-gray-400 mb-2">{event.location}</p>
+//                   <p className="font-semibold mb-4 eventYellowText">
+//                     {new Date(event.date).toLocaleDateString(undefined, {
+//                       weekday: 'short',
+//                       month: 'short',
+//                       day: 'numeric',
+//                       year: 'numeric',
+//                     })}
+//                   </p>
+//                   {event.link && (
+//                     <Link
+//                       href={event.link}
+//                       target="_blank"
+//                       rel="noopener noreferrer"
+//                       className="inline-block px-4 py-2 ezellYellow font-bold rounded transition"
+//                     >
+//                       RSVP / Book
+//                     </Link>
+//                   )}
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default EventsPage;
+// =============================ABOVE IS THE ORIGINAL CODE========================
+
+
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
+import Image from 'next/image';
+import Link from 'next/link';
+import Sidebar from '@/components/Sidebar';
+
+type Event = {
+  id: string;
+  title: string;
+  location: string;
+  date: string;
+  link: string;
+  image_url: string;
+};
 
 const EventsPage = () => {
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const { data, error } = await supabase
+        .from('events')
+        .select('*')
+        .order('date', { ascending: true });
+
+      if (error) {
+        console.error('Error fetching events:', error);
+      } else {
+        setEvents(data || []);
+      }
+      setLoading(false);
+    };
+
+    fetchEvents();
+  }, []);
+
   return (
-    <div className="flex min-h-screen bg-black">
+    <div className="flex bg-black text-white min-h-screen">
       <Sidebar />
 
-      <div className="flex-1 p-10 mt-16 text-white max-w-5xl mx-auto">
-        <h1 className="text-5xl font-bold mb-10 border-b border-gray-700 pb-4">
-          Upcoming Events
+      <main className="w-full px-4 sm:px-10 py-12 max-w-7xl mx-auto">
+        <h1 className="text-4xl md:text-5xl font-bold mb-12 border-b pb-4 border-gray-700 text-center ">
+          UPCOMING EVENTS
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/*Event Card */}
-          <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg hover:shadow-xl transition">
-            <h2 className="text-2xl font-semibold mb-2">Check Out Our UpComing Events</h2>
-            <p className="mb-4 text-gray-300">View the latest events, appearances, and pop-ups.</p>
-            <a
-              href="https://partiful.com/e/8zDOjRozGJlWJAphbTef"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-6 py-2 bg-white text-black font-bold rounded hover:bg-gray-200 transition"
-            >
-              RSVP / Book Now
-            </a>
+        {loading ? (
+          <p className="text-gray-400 text-center mt-10">Loading...</p>
+        ) : events.length === 0 ? (
+          <p className="text-gray-400 text-center mt-10">No events yet. Stay tuned.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            {events.map((event) => (
+              <div
+                key={event.id}
+                className="bg-[#1a1a1a] border border-gray-700 rounded-lg overflow-hidden transition-transform transform hover:scale-105 shadow-glow-chrome"
+              >
+                {event.image_url && (
+                  <div className="relative w-full h-60">
+                    <Image
+                      src={event.image_url}
+                      alt={event.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  </div>
+                )}
+
+                <div className="p-6">
+                  <h2 className="text-xl sm:text-2xl font-bold mb-1 text-white">{event.title}</h2>
+                  <p className="text-gray-400 mb-1">{event.location}</p>
+                  <p className="font-semibold mb-4 text-[#f3eb00]">
+                    {new Date(event.date).toLocaleDateString(undefined, {
+                      weekday: 'short',
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
+                  </p>
+
+                  {event.link && (
+                    <Link
+                      href={event.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block px-4 py-2 ezellYellow font-bold rounded transition"
+                    >
+                      RSVP / Book
+                    </Link>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
-
-          {/* duplicate this block for more events */}
-        </div>
-
-        <p className="mt-12 text-center text-gray-400 text-sm">
-          More dates coming soon. Stay tuned & follow on socials for updates.
-        </p>
-      </div>
+        )}
+      </main>
     </div>
   );
 };
 
 export default EventsPage;
+

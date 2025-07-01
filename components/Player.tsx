@@ -1,3 +1,298 @@
+// 'use client';
+
+// import { useRef, useState, useEffect, useCallback } from 'react';
+// import Image from 'next/image';
+// import { songs } from '../utils/songData';
+// import SongCarousel from './SongCarousel';
+
+// const formatTime = (seconds: number) => {
+//   const minutes = Math.floor(seconds / 60);
+//   const secs = Math.floor(seconds % 60);
+//   return `${minutes}:${secs < 10 ? '0' + secs : secs}`;
+// };
+
+// const Player = () => {
+//   const audioRef = useRef<HTMLAudioElement | null>(null);
+//   const [currentIndex, setCurrentIndex] = useState(0);
+//   const [isPlaying, setIsPlaying] = useState(false);
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [progress, setProgress] = useState(0);
+//   const [duration, setDuration] = useState(0);
+//   const currentSong = songs[currentIndex];
+
+//   const playSong = async () => {
+//     if (audioRef.current && !isLoading) {
+//       try {
+//         setIsLoading(true);
+//         await audioRef.current.play();
+//         setIsPlaying(true);
+
+//         if ('mediaSession' in navigator) {
+//           navigator.mediaSession.playbackState = 'playing';
+//         }
+//       } catch (err) {
+//         console.error('Play error:', err);
+//         setIsPlaying(false);
+//         if ('mediaSession' in navigator) {
+//           navigator.mediaSession.playbackState = 'paused';
+//         }
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     }
+//   };
+
+//   const pauseSong = () => {
+//     if (audioRef.current) {
+//       audioRef.current.pause();
+//       setIsPlaying(false);
+
+//       if ('mediaSession' in navigator) {
+//         navigator.mediaSession.playbackState = 'paused';
+//       }
+//     }
+//   };
+
+//   const changeSong = async (newIndex: number, shouldAutoPlay: boolean = false) => {
+//     if (!audioRef.current) return;
+//     const wasPlaying = isPlaying || shouldAutoPlay;
+
+//     setIsLoading(true);
+//     setCurrentIndex(newIndex);
+
+//     setTimeout(async () => {
+//       if (audioRef.current && wasPlaying) {
+//         try {
+//           await audioRef.current.play();
+//           setIsPlaying(true);
+//           if ('mediaSession' in navigator) {
+//             navigator.mediaSession.playbackState = 'playing';
+//           }
+//         } catch (err) {
+//           console.error('Playback failed after song change:', err);
+//           setIsPlaying(false);
+//           if ('mediaSession' in navigator) {
+//             navigator.mediaSession.playbackState = 'paused';
+//           }
+//         }
+//       }
+//       setIsLoading(false);
+//     }, 100);
+//   };
+
+//   const handleNext = useCallback((autoPlay: boolean = false) => {
+//     const nextIndex = (currentIndex + 1) % songs.length;
+//     changeSong(nextIndex, autoPlay);
+//   }, [currentIndex, isPlaying]);
+
+//   const handlePrev = useCallback(() => {
+//     const prevIndex = (currentIndex - 1 + songs.length) % songs.length;
+//     changeSong(prevIndex);
+//   }, [currentIndex]);
+
+//   const handleSongSelect = (index: number) => {
+//     changeSong(index);
+//   };
+
+//   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     const value = Number(e.target.value);
+//     if (audioRef.current) {
+//       audioRef.current.currentTime = value;
+//     }
+//   };
+
+//   useEffect(() => {
+//     if ('mediaSession' in navigator) {
+//       navigator.mediaSession.metadata = new MediaMetadata({
+//         title: currentSong.title,
+//         artist: 'Ezell Brown',
+//         album: 'MAXWELL MIX',
+//         artwork: [
+//           { src: currentSong.cover, sizes: '512x512', type: 'image/jpeg' },
+//         ],
+//       });
+
+//       navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+
+//       navigator.mediaSession.setActionHandler('play', playSong);
+//       navigator.mediaSession.setActionHandler('pause', pauseSong);
+//       navigator.mediaSession.setActionHandler('previoustrack', handlePrev);
+//       navigator.mediaSession.setActionHandler('nexttrack', () => handleNext(false));
+
+//       navigator.mediaSession.setActionHandler('seekto', (details) => {
+//         if (audioRef.current && details.seekTime !== undefined) {
+//           audioRef.current.currentTime = details.seekTime;
+//         }
+//       });
+//     }
+//   }, [currentSong, isPlaying, handleNext, handlePrev]);
+
+//   useEffect(() => {
+//     const audio = audioRef.current;
+//     if (!audio) return;
+
+//     const updateProgress = () => {
+//       setProgress(audio.currentTime);
+//       setDuration(audio.duration || 0);
+//     };
+
+//     const handleEnded = () => {
+//       // Automatically play the next song when current song ends
+//       handleNext(true);
+//     };
+
+//     const handleLoadStart = () => setIsLoading(true);
+//     const handleCanPlay = () => setIsLoading(false);
+//     const handlePlay = () => {
+//       setIsPlaying(true);
+//       if ('mediaSession' in navigator) {
+//         navigator.mediaSession.playbackState = 'playing';
+//       }
+//     };
+//     const handlePause = () => {
+//       setIsPlaying(false);
+//       if ('mediaSession' in navigator) {
+//         navigator.mediaSession.playbackState = 'paused';
+//       }
+//     };
+
+//     audio.addEventListener('timeupdate', updateProgress);
+//     audio.addEventListener('loadstart', handleLoadStart);
+//     audio.addEventListener('canplay', handleCanPlay);
+//     audio.addEventListener('play', handlePlay);
+//     audio.addEventListener('pause', handlePause);
+//     audio.addEventListener('ended', handleEnded);
+
+//     return () => {
+//       audio.removeEventListener('timeupdate', updateProgress);
+//       audio.removeEventListener('loadstart', handleLoadStart);
+//       audio.removeEventListener('canplay', handleCanPlay);
+//       audio.removeEventListener('play', handlePlay);
+//       audio.removeEventListener('pause', handlePause);
+//       audio.removeEventListener('ended', handleEnded);
+//     };
+//   }, [handleNext]);
+
+//   return (
+//     <div className="text-center px-2 sm:px-4 text-white w-full">
+//       <div className="relative w-full max-w-sm mx-auto mt-2">
+//         <div className="bg-black p-2 rounded-full">
+//           <div className="relative w-full aspect-square">
+//             <Image
+//               src={currentSong.cover}
+//               alt={currentSong.title}
+//               fill
+//               sizes="(max-width: 768px) 100vw, 384px"
+//               className={`object-cover rounded-full transition-all duration-500 ${
+//                 isPlaying ? 'spin-record' : ''
+//               }`}
+//               priority
+//             />
+//             {isLoading && (
+//               <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full">
+//                 <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+//               </div>
+//             )}
+//           </div>
+//         </div>
+//       </div>
+
+//       <h1 className="text-lg sm:text-2xl font-semibold text-white mt-4 mb-2">
+//         {currentSong.title}
+//       </h1>
+
+//       {/* Progress Bar */}
+//       <div className="w-full max-w-md mx-auto px-4 mt-2 mb-1">
+//         <div className="flex justify-between text-sm text-gray-300 mb-1">
+//           <span>{formatTime(progress)}</span>
+//           <span>{formatTime(duration)}</span>
+//         </div>
+//         <input
+//           type="range"
+//           min={0}
+//           max={duration || 0}
+//           value={progress}
+//           step="0.1"
+//           onChange={handleSeek}
+//           className="custom-slider w-full "
+//           // style={{ accentColor: '#FFD700' }}
+//         />
+//       </div>
+
+//       <div className="flex justify-center items-center gap-4 flex-wrap my-4">
+//         <button 
+//           onClick={handlePrev} 
+//           disabled={isLoading}
+//           className="ezellYellow p-2 rounded-full shadow transition disabled:opacity-50"
+//         >
+//           <div className="relative w-6 h-6">
+//             <Image src="/images/rewind-button.png" alt="Previous" fill sizes="24px" />
+//           </div>
+//         </button>
+
+//         {isPlaying ? (
+//           <button 
+//             onClick={pauseSong} 
+//             disabled={isLoading}
+//             className="ezellYellow p-2 rounded-full shadow transition disabled:opacity-50"
+//           >
+//             <div className="relative w-6 h-6">
+//               <Image src="/images/pause.png" alt="Pause" fill sizes="24px" />
+//             </div>
+//           </button>
+//         ) : (
+//           <button 
+//             onClick={playSong} 
+//             disabled={isLoading}
+//             className="ezellYellow p-2 rounded-full shadow transition disabled:opacity-50"
+//           >
+//             <div className="relative w-6 h-6">
+//               <Image src="/images/play.png" alt="Play" fill sizes="24px" />
+//             </div>
+//           </button>
+//         )}
+
+//         <button 
+//           onClick={() => handleNext(false)} 
+//           disabled={isLoading}
+//           className="ezellYellow p-2 rounded-full shadow transition disabled:opacity-50"
+//         >
+//           <div className="relative w-6 h-6">
+//             <Image
+//               src="/images/rewind-button.png"
+//               alt="Next"
+//               fill
+//               sizes="24px"
+//               className="transform -scale-x-100"
+//             />
+//           </div>
+//         </button>
+
+//         <a href={currentSong.file} download className="ezellYellow p-2 rounded-full shadow transition">
+//           <div className="relative w-6 h-6">
+//             <Image src="/images/download.png" alt="Download" fill sizes="24px" />
+//           </div>
+//         </a>
+//       </div>
+
+//       <SongCarousel
+//         songs={songs}
+//         onSelectSong={handleSongSelect}
+//         currentSongIndex={currentIndex}
+//       />
+
+//       <audio
+//         ref={audioRef}
+//         src={currentSong.file}
+//         preload="auto"
+//       />
+//     </div>
+//   );
+// };
+
+// export default Player;
+// ====Above is the original code===============================================================================
+
 'use client';
 
 import { useRef, useState, useEffect, useCallback } from 'react';
@@ -26,16 +321,10 @@ const Player = () => {
         setIsLoading(true);
         await audioRef.current.play();
         setIsPlaying(true);
-
-        if ('mediaSession' in navigator) {
-          navigator.mediaSession.playbackState = 'playing';
-        }
+        navigator.mediaSession.playbackState = 'playing';
       } catch (err) {
         console.error('Play error:', err);
         setIsPlaying(false);
-        if ('mediaSession' in navigator) {
-          navigator.mediaSession.playbackState = 'paused';
-        }
       } finally {
         setIsLoading(false);
       }
@@ -46,35 +335,23 @@ const Player = () => {
     if (audioRef.current) {
       audioRef.current.pause();
       setIsPlaying(false);
-
-      if ('mediaSession' in navigator) {
-        navigator.mediaSession.playbackState = 'paused';
-      }
+      navigator.mediaSession.playbackState = 'paused';
     }
   };
 
   const changeSong = async (newIndex: number, shouldAutoPlay: boolean = false) => {
-    if (!audioRef.current) return;
     const wasPlaying = isPlaying || shouldAutoPlay;
-
     setIsLoading(true);
     setCurrentIndex(newIndex);
-
     setTimeout(async () => {
       if (audioRef.current && wasPlaying) {
         try {
           await audioRef.current.play();
           setIsPlaying(true);
-          if ('mediaSession' in navigator) {
-            navigator.mediaSession.playbackState = 'playing';
-          }
         } catch (err) {
-          console.error('Playback failed after song change:', err);
-          setIsPlaying(false);
-          if ('mediaSession' in navigator) {
-            navigator.mediaSession.playbackState = 'paused';
-          }
-        }
+  console.error('Error changing song:', err);
+  setIsPlaying(false);
+}
       }
       setIsLoading(false);
     }, 100);
@@ -83,16 +360,12 @@ const Player = () => {
   const handleNext = useCallback((autoPlay: boolean = false) => {
     const nextIndex = (currentIndex + 1) % songs.length;
     changeSong(nextIndex, autoPlay);
-  }, [currentIndex, isPlaying]);
+  }, [currentIndex]);
 
   const handlePrev = useCallback(() => {
     const prevIndex = (currentIndex - 1 + songs.length) % songs.length;
     changeSong(prevIndex);
   }, [currentIndex]);
-
-  const handleSongSelect = (index: number) => {
-    changeSong(index);
-  };
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
@@ -100,32 +373,6 @@ const Player = () => {
       audioRef.current.currentTime = value;
     }
   };
-
-  useEffect(() => {
-    if ('mediaSession' in navigator) {
-      navigator.mediaSession.metadata = new MediaMetadata({
-        title: currentSong.title,
-        artist: 'Ezell Brown',
-        album: 'MAXWELL MIX',
-        artwork: [
-          { src: currentSong.cover, sizes: '512x512', type: 'image/jpeg' },
-        ],
-      });
-
-      navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
-
-      navigator.mediaSession.setActionHandler('play', playSong);
-      navigator.mediaSession.setActionHandler('pause', pauseSong);
-      navigator.mediaSession.setActionHandler('previoustrack', handlePrev);
-      navigator.mediaSession.setActionHandler('nexttrack', () => handleNext(false));
-
-      navigator.mediaSession.setActionHandler('seekto', (details) => {
-        if (audioRef.current && details.seekTime !== undefined) {
-          audioRef.current.currentTime = details.seekTime;
-        }
-      });
-    }
-  }, [currentSong, isPlaying, handleNext, handlePrev]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -136,47 +383,18 @@ const Player = () => {
       setDuration(audio.duration || 0);
     };
 
-    const handleEnded = () => {
-      // Automatically play the next song when current song ends
-      handleNext(true);
-    };
-
-    const handleLoadStart = () => setIsLoading(true);
-    const handleCanPlay = () => setIsLoading(false);
-    const handlePlay = () => {
-      setIsPlaying(true);
-      if ('mediaSession' in navigator) {
-        navigator.mediaSession.playbackState = 'playing';
-      }
-    };
-    const handlePause = () => {
-      setIsPlaying(false);
-      if ('mediaSession' in navigator) {
-        navigator.mediaSession.playbackState = 'paused';
-      }
-    };
-
     audio.addEventListener('timeupdate', updateProgress);
-    audio.addEventListener('loadstart', handleLoadStart);
-    audio.addEventListener('canplay', handleCanPlay);
-    audio.addEventListener('play', handlePlay);
-    audio.addEventListener('pause', handlePause);
-    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('ended', () => handleNext(true));
 
     return () => {
       audio.removeEventListener('timeupdate', updateProgress);
-      audio.removeEventListener('loadstart', handleLoadStart);
-      audio.removeEventListener('canplay', handleCanPlay);
-      audio.removeEventListener('play', handlePlay);
-      audio.removeEventListener('pause', handlePause);
-      audio.removeEventListener('ended', handleEnded);
     };
   }, [handleNext]);
 
   return (
-    <div className="text-center px-2 sm:px-4 text-white w-full">
-      <div className="relative w-full max-w-sm mx-auto mt-2">
-        <div className="bg-black p-2 rounded-full">
+    <div className="text-center px-4 text-white w-full">
+      <div className="relative w-full max-w-sm mx-auto mt-4">
+        <div className="bg-black p-2 rounded-full shadow-glow-chrome">
           <div className="relative w-full aspect-square">
             <Image
               src={currentSong.cover}
@@ -197,12 +415,9 @@ const Player = () => {
         </div>
       </div>
 
-      <h1 className="text-lg sm:text-2xl font-semibold text-white mt-4 mb-2">
-        {currentSong.title}
-      </h1>
+      <h1 className="text-2xl font-bold text-white mt-6 mb-4 ">{currentSong.title}</h1>
 
-      {/* Progress Bar */}
-      <div className="w-full max-w-md mx-auto px-4 mt-2 mb-1">
+      <div className="w-full max-w-md mx-auto px-4 mt-2 mb-4">
         <div className="flex justify-between text-sm text-gray-300 mb-1">
           <span>{formatTime(progress)}</span>
           <span>{formatTime(duration)}</span>
@@ -214,78 +429,40 @@ const Player = () => {
           value={progress}
           step="0.1"
           onChange={handleSeek}
-          className="custom-slider w-full "
-          // style={{ accentColor: '#FFD700' }}
+          className="custom-slider w-full"
         />
       </div>
 
       <div className="flex justify-center items-center gap-4 flex-wrap my-4">
-        <button 
-          onClick={handlePrev} 
-          disabled={isLoading}
-          className="ezellYellow p-2 rounded-full shadow transition disabled:opacity-50"
-        >
-          <div className="relative w-6 h-6">
-            <Image src="/images/rewind-button.png" alt="Previous" fill sizes="24px" />
-          </div>
+        <button onClick={handlePrev} disabled={isLoading} className="ezellYellowBtn">
+          <Image src="/images/rewind-button.png" alt="Prev" width={24} height={24} />
         </button>
 
-        {isPlaying ? (
-          <button 
-            onClick={pauseSong} 
-            disabled={isLoading}
-            className="ezellYellow p-2 rounded-full shadow transition disabled:opacity-50"
-          >
-            <div className="relative w-6 h-6">
-              <Image src="/images/pause.png" alt="Pause" fill sizes="24px" />
-            </div>
-          </button>
-        ) : (
-          <button 
-            onClick={playSong} 
-            disabled={isLoading}
-            className="ezellYellow p-2 rounded-full shadow transition disabled:opacity-50"
-          >
-            <div className="relative w-6 h-6">
-              <Image src="/images/play.png" alt="Play" fill sizes="24px" />
-            </div>
-          </button>
-        )}
-
-        <button 
-          onClick={() => handleNext(false)} 
-          disabled={isLoading}
-          className="ezellYellow p-2 rounded-full shadow transition disabled:opacity-50"
-        >
-          <div className="relative w-6 h-6">
-            <Image
-              src="/images/rewind-button.png"
-              alt="Next"
-              fill
-              sizes="24px"
-              className="transform -scale-x-100"
-            />
-          </div>
+        <button onClick={isPlaying ? pauseSong : playSong} disabled={isLoading} className="ezellYellowBtn">
+          <Image
+            src={isPlaying ? '/images/pause.png' : '/images/play.png'}
+            alt={isPlaying ? 'Pause' : 'Play'}
+            width={24}
+            height={24}
+          />
         </button>
 
-        <a href={currentSong.file} download className="ezellYellow p-2 rounded-full shadow transition">
-          <div className="relative w-6 h-6">
-            <Image src="/images/download.png" alt="Download" fill sizes="24px" />
-          </div>
+        <button onClick={() => handleNext(false)} disabled={isLoading} className="ezellYellowBtn">
+          <Image src="/images/rewind-button.png" alt="Next" width={24} height={24} className="transform -scale-x-100" />
+        </button>
+
+        <a href={currentSong.file} download className="ezellYellowBtn">
+          <Image src="/images/download.png" alt="Download" width={24} height={24} />
         </a>
       </div>
 
       <SongCarousel
         songs={songs}
-        onSelectSong={handleSongSelect}
+        onSelectSong={(index) => changeSong(index)}
         currentSongIndex={currentIndex}
       />
 
-      <audio
-        ref={audioRef}
-        src={currentSong.file}
-        preload="auto"
-      />
+      <audio ref={audioRef} src={currentSong.file} preload="auto" />
     </div>
   );
 };
