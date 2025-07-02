@@ -74,7 +74,6 @@ const MailingListForm = () => {
         >
           {status === 'loading' ? 'Submitting...' : 'Submit'}
         </button>
-
         {message && (
           <p className={`text-sm text-center mt-2 ${status === 'error' ? 'text-red-400' : 'text-green-400'}`}>
             {message}
