@@ -83,6 +83,7 @@ body {
 .show-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: #f3eb00 #000; 
+  overflow-x: scroll !important;
 }
 
 .show-scrollbar::-webkit-scrollbar {

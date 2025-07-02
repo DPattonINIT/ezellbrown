@@ -14,7 +14,6 @@
 //   );
 // }
 // ====Above is the original code, below is the modified code for music.tsx ====
-
 import Sidebar from "@/components/Sidebar";
 import Player from "@/components/Player";
 
@@ -22,12 +21,11 @@ export default function MusicPage() {
   return (
     <div className="flex bg-black text-white min-h-screen">
       <Sidebar />
-      <main className="w-full p-6 sm:p-10 flex flex-col items-center justify-center bg-black text-white relative fade-in-slow">
-        <div className="w-full max-w-4xl bg-gradient-to-br from-black via-zinc-900 to-black p-6 sm:p-8 rounded-2xl  shadow-[0_0_30px_rgba(255,255,255,0.08)]">
+      <main className="w-full p-2 sm:p-4 lg:p-10 flex flex-col items-center justify-center bg-black text-white relative fade-in-slow overflow-x-hidden">
+        <div className="w-full max-w-4xl bg-gradient-to-br from-black via-zinc-900 to-black p-3 sm:p-4 lg:p-8 rounded-2xl shadow-[0_0_30px_rgba(255,255,255,0.08)]">
           <Player />
         </div>
       </main>
     </div>
   );
 }
-

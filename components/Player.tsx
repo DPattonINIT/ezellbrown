@@ -292,7 +292,6 @@
 
 // export default Player;
 // ====Above is the original code===============================================================================
-
 'use client';
 
 import { useRef, useState, useEffect, useCallback } from 'react';
@@ -349,9 +348,9 @@ const Player = () => {
           await audioRef.current.play();
           setIsPlaying(true);
         } catch (err) {
-  console.error('Error changing song:', err);
-  setIsPlaying(false);
-}
+          console.error('Error changing song:', err);
+          setIsPlaying(false);
+        }
       }
       setIsLoading(false);
     }, 100);
@@ -392,15 +391,16 @@ const Player = () => {
   }, [handleNext]);
 
   return (
-    <div className="text-center px-4 text-white w-full">
-      <div className="relative w-full max-w-sm mx-auto mt-4">
+    <div className="text-center px-2 sm:px-4 text-white w-full">
+      {/* Main album art - responsive sizing */}
+      <div className="relative w-full max-w-xs sm:max-w-sm mx-auto mt-4">
         <div className="bg-black p-2 rounded-full shadow-glow-chrome">
           <div className="relative w-full aspect-square">
             <Image
               src={currentSong.cover}
               alt={currentSong.title}
               fill
-              sizes="(max-width: 768px) 100vw, 384px"
+              sizes="(max-width: 640px) 280px, 384px"
               className={`object-cover rounded-full transition-all duration-500 ${
                 isPlaying ? 'spin-record' : ''
               }`}
@@ -415,10 +415,14 @@ const Player = () => {
         </div>
       </div>
 
-      <h1 className="text-2xl font-bold text-white mt-6 mb-4 ">{currentSong.title}</h1>
+      {/* Song title - responsive text size */}
+      <h1 className="text-xl sm:text-2xl font-bold text-white mt-4 sm:mt-6 mb-4 px-2">
+        {currentSong.title}
+      </h1>
 
-      <div className="w-full max-w-md mx-auto px-4 mt-2 mb-4">
-        <div className="flex justify-between text-sm text-gray-300 mb-1">
+      {/* Progress bar - improved mobile touch */}
+      <div className="w-full max-w-md mx-auto px-2 sm:px-4 mt-2 mb-4">
+        <div className="flex justify-between text-xs sm:text-sm text-gray-300 mb-1">
           <span>{formatTime(progress)}</span>
           <span>{formatTime(duration)}</span>
         </div>
@@ -429,33 +433,54 @@ const Player = () => {
           value={progress}
           step="0.1"
           onChange={handleSeek}
-          className="custom-slider w-full"
+          className="custom-slider w-full h-2 sm:h-auto"
         />
       </div>
 
-      <div className="flex justify-center items-center gap-4 flex-wrap my-4">
-        <button onClick={handlePrev} disabled={isLoading} className="ezellYellowBtn">
-          <Image src="/images/rewind-button.png" alt="Prev" width={24} height={24} />
+      {/* Control buttons - improved mobile spacing */}
+      <div className="flex justify-center items-center gap-3 sm:gap-4 flex-wrap my-4">
+        <button 
+          onClick={handlePrev} 
+          disabled={isLoading} 
+          className="ezellYellowBtn p-3 sm:p-4"
+        >
+          <Image src="/images/rewind-button.png" alt="Prev" width={20} height={20} className="sm:w-6 sm:h-6" />
         </button>
 
-        <button onClick={isPlaying ? pauseSong : playSong} disabled={isLoading} className="ezellYellowBtn">
+        <button 
+          onClick={isPlaying ? pauseSong : playSong} 
+          disabled={isLoading} 
+          className="ezellYellowBtn p-4 sm:p-5"
+        >
           <Image
             src={isPlaying ? '/images/pause.png' : '/images/play.png'}
             alt={isPlaying ? 'Pause' : 'Play'}
             width={24}
             height={24}
+            className="sm:w-7 sm:h-7"
           />
         </button>
 
-        <button onClick={() => handleNext(false)} disabled={isLoading} className="ezellYellowBtn">
-          <Image src="/images/rewind-button.png" alt="Next" width={24} height={24} className="transform -scale-x-100" />
+        <button 
+          onClick={() => handleNext(false)} 
+          disabled={isLoading} 
+          className="ezellYellowBtn p-3 sm:p-4"
+        >
+          <Image 
+            src="/images/rewind-button.png" 
+            alt="Next" 
+            width={20} 
+            height={20} 
+            className="transform -scale-x-100 sm:w-6 sm:h-6" 
+          />
         </button>
 
-        <a href={currentSong.file} download className="ezellYellowBtn">
-          <Image src="/images/download.png" alt="Download" width={24} height={24} />
+        <a href={currentSong.file} download className="ezellYellowBtn p-3 sm:p-4">
+          <Image src="/images/download.png" alt="Download" width={20} height={20} className="sm:w-6 sm:h-6" />
         </a>
       </div>
 
+      {/* Song carousel with enhanced mobile scrolling */}
       <SongCarousel
         songs={songs}
         onSelectSong={(index) => changeSong(index)}
