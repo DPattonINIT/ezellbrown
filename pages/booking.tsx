@@ -131,7 +131,7 @@ const BookingForm = () => {
           BOOK EZELL FOR YOUR EVENT
         </h2>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5 bg-[#1a1a1a] p-6 sm:p-8 rounded-xl shadow-glow-chrome">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5 bg-black p-6 sm:p-8 rounded-xl ">
           <input
             name="name"
             type="text"

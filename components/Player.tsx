@@ -394,7 +394,7 @@ const Player = () => {
     <div className="text-center px-2 sm:px-4 text-white w-full">
       {/* Main album art - responsive sizing */}
       <div className="relative w-full max-w-xs sm:max-w-sm mx-auto mt-4">
-        <div className="bg-black p-2 rounded-full shadow-glow-chrome">
+        <div className="bg-black p-2 rounded-full ">
           <div className="relative w-full aspect-square">
             <Image
               src={currentSong.cover}

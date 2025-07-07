@@ -72,7 +72,7 @@ const InfoPage = () => {
         </h1>
 
         <div className="flex flex-col items-center justify-center">
-          <div className="w-full max-w-md rounded-lg overflow-hidden shadow-glow-chrome">
+          <div className="w-full max-w-md rounded-lg overflow-hidden ">
             <Image
               width={600}
               height={400}
@@ -85,7 +85,7 @@ const InfoPage = () => {
         </div>
 
         <p className="mt-10 text-lg leading-relaxed text-center text-white max-w-3xl mx-auto">
-          <span className="block mb-4 font-semibold text-[#f3eb00] text-xl">DJ. Musician. Multi-instrumentalist. Vibe architect.</span>
+          <span className="block mb-4 font-semibold  text-xl">DJ. Musician. Multi-instrumentalist. Vibe architect.</span>
           Ezell’s been crafting soundscapes for years—mixing genres, remixing classics,
           and building beats that move people. He co-founded <strong className="text-white font-bold">BeachParty Records</strong> in LA,
           a label built on freedom, energy, and community.

@@ -61,13 +61,13 @@ export default function Home() {
 
       <main className="relative min-h-screen w-full bg-black text-white flex flex-col items-center justify-center overflow-hidden px-4 py-12">
         {/* Subtle glowing background */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#f3eb00] opacity-10 rounded-full blur-3xl pointer-events-none z-0"></div>
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px]  opacity-10 rounded-full blur-3xl pointer-events-none z-0"></div>
 
         {/* Chrome Hero Image */}
         <div className="z-10 flex flex-col items-center gap-6 text-center fade-in">
-          <div className="relative w-48 h-48 md:w-60 md:h-60 chrome-ring bg-black p-2 shadow-xl">
+          <div className="relative w-48 h-48 md:w-60 md:h-60 chrome-ring bg-white p-2 shadow-xl">
             <Image
-              src="/images/header.jpeg"
+              src="/EB_FAVICON.png"
               alt="Ezell Brown"
               fill
               className="object-contain rounded-full"
