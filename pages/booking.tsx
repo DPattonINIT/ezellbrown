@@ -164,7 +164,7 @@ const BookingForm = () => {
 
           <button
             type="submit"
-            className="ezellYellow text-black font-bold py-2 rounded uppercase tracking-wide hover:bg-[#e2da00] transition"
+            className="ezellYellow text-black font-bold py-2 rounded uppercase tracking-wide hover:bg-[#e2da00] transition cursor-pointer"
             disabled={status === 'loading'}
           >
             {status === 'loading' ? 'Submitting...' : 'Submit Booking Request'}

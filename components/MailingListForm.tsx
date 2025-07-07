@@ -69,7 +69,7 @@ const MailingListForm = () => {
 
         <button
           type="submit"
-          className="ezellYellow text-black font-semibold py-2 rounded-md transition mt-2 uppercase"
+          className="ezellYellow text-black font-semibold py-2 rounded-md transition mt-2 uppercase cursor-pointer"
           disabled={status === 'loading'}
         >
           {status === 'loading' ? 'Submitting...' : 'Submit'}

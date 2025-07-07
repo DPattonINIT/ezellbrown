@@ -442,7 +442,7 @@ const Player = () => {
         <button 
           onClick={handlePrev} 
           disabled={isLoading} 
-          className="ezellYellowBtn p-3 sm:p-4"
+          className="ezellYellowBtn p-3 sm:p-4 cursor-pointer"
         >
           <Image src="/images/rewind-button.png" alt="Prev" width={20} height={20} className="sm:w-6 sm:h-6" />
         </button>
@@ -450,7 +450,7 @@ const Player = () => {
         <button 
           onClick={isPlaying ? pauseSong : playSong} 
           disabled={isLoading} 
-          className="ezellYellowBtn p-4 sm:p-5"
+          className="ezellYellowBtn p-4 sm:p-5 cursor-pointer"
         >
           <Image
             src={isPlaying ? '/images/pause.png' : '/images/play.png'}
@@ -464,14 +464,14 @@ const Player = () => {
         <button 
           onClick={() => handleNext(false)} 
           disabled={isLoading} 
-          className="ezellYellowBtn p-3 sm:p-4"
+          className="ezellYellowBtn p-3 sm:p-4 cursor-pointer"
         >
           <Image 
             src="/images/rewind-button.png" 
             alt="Next" 
             width={20} 
             height={20} 
-            className="transform -scale-x-100 sm:w-6 sm:h-6" 
+            className="transform -scale-x-100 sm:w-6 sm:h-6 cursor-pointer" 
           />
         </button>
 
