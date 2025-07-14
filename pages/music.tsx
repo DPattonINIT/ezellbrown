@@ -102,7 +102,7 @@ export default function MusicPage() {
      <div className="min-h-screen bg-black text-white flex">
       <Sidebar />
       
-      <div className="flex-1 ml-64">
+     <div className="flex-1 ml-0 md:ml-64 transition-all duration-300">
         <h1 className="text-4xl text-center py-8">Albums</h1>
 
         {albums.length === 0 ? (
