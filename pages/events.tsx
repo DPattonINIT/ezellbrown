@@ -156,7 +156,7 @@ const EventsPage = () => {
             {events.map((event) => (
               <div
                 key={event.id}
-                className="bg-[#1a1a1a] border border-gray-700 rounded-lg overflow-hidden transition-transform transform hover:scale-105 shadow-glow-chrome"
+                className="bg-[#1a1a1a] border border-gray-700 rounded-lg overflow-hidden transition-transform transform hover:scale-105 "
               >
                 {event.image_url && (
                   <div className="relative w-full h-60">

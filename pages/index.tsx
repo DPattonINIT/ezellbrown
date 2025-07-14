@@ -57,15 +57,15 @@ import Image from "next/image";
 export default function Home() {
   return (
     <div className="flex">
-      <Sidebar />
+      <Sidebar lightMode />
 
-      <main className="relative min-h-screen w-full bg-black text-white flex flex-col items-center justify-center overflow-hidden px-4 py-12">
+      <main className="relative min-h-screen w-full bg-white text-black flex flex-col items-center justify-center overflow-hidden px-4 py-12">
         {/* Subtle glowing background */}
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px]  opacity-10 rounded-full blur-3xl pointer-events-none z-0"></div>
 
         {/* Chrome Hero Image */}
         <div className="z-10 flex flex-col items-center gap-6 text-center fade-in">
-          <div className="relative w-48 h-48 md:w-60 md:h-60 chrome-ring bg-white p-2 shadow-xl">
+          <div className="relative w-48 h-48 md:w-60 md:h-60  bg-white p-2 ">
             <Image
               src="/EB_FAVICON.png"
               alt="Ezell Brown"
@@ -77,10 +77,11 @@ export default function Home() {
 
           {/* Heading */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight uppercase">
-            The Sound of <span className="text-[#f3eb00]">Ezell Brown</span>
+            The Sound of 
           </h1>
+          <h1 className="text-black text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight uppercase">Ezell Brown</h1>
 
-          <p className="text-sm sm:text-base max-w-md text-gray-300 italic">
+          <p className="text-sm sm:text-base max-w-md text-black italic">
             A fusion of soul, rhythm, and unforgettable grooves. Be the first to know about new drops and events.
           </p>
         </div>

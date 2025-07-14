@@ -37,7 +37,7 @@ const MailingListForm = () => {
   };
 
   return (
-    <section className="w-full max-w-md mx-auto mt-10 p-4 sm:p-6 bg-black text-white rounded-xl shadow-lg backdrop-blur-md font-sans">
+    <section className="w-full max-w-md mx-auto mt-10 p-4 sm:p-6 bg-white text-black rounded-xl  backdrop-blur-md font-sans">
       <h2 className="text-xl sm:text-2xl font-bold text-center mb-4 underline">JOIN THE MAILING LIST</h2>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -47,7 +47,7 @@ const MailingListForm = () => {
             id="name"
             type="text"
             placeholder="Your name"
-            className="px-4 py-2 border border-white bg-transparent text-white placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            className="px-4 py-2 border border-black bg-transparent text-black placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -60,7 +60,7 @@ const MailingListForm = () => {
             id="email"
             type="email"
             placeholder="you@example.com"
-            className="px-4 py-2 border border-white bg-transparent text-white placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            className="px-4 py-2 border border-black bg-transparent text-black placeholder-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -69,7 +69,7 @@ const MailingListForm = () => {
 
         <button
           type="submit"
-          className="ezellYellow text-black font-semibold py-2 rounded-md transition mt-2 uppercase cursor-pointer"
+          className="bg-black hover:bg-gray-800 text-white font-semibold py-2 rounded-md transition mt-2 uppercase cursor-pointer"
           disabled={status === 'loading'}
         >
           {status === 'loading' ? 'Submitting...' : 'Submit'}
