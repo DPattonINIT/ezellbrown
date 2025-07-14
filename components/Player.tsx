@@ -648,6 +648,7 @@ const Player = ({ songs }: PlayerProps) => {
                 alt={current.title}
                 fill
                 // removed spinner
+                // 
                 // className={`object-cover transition-transform ${playing ? 'spin-record' : ''}`}
               />
             ) : (
