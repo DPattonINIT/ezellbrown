@@ -658,7 +658,7 @@ const Player = ({ songs }: PlayerProps) => {
             )}
             {loading && (
               <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full">
-                <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full " />
               </div>
             )}
           </div>
