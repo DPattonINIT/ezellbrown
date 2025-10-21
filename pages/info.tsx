@@ -67,8 +67,8 @@ const InfoPage = () => {
       <Sidebar />
 
       <main className="w-full px-6 py-10 sm:px-10 max-w-5xl mx-auto">
-        <h1 className="text-4xl sm:text-5xl font-bold text-center mb-12 border-b pb-4 border-gray-700 ">
-          WHO IS EZELL BROWN
+        <h1 className="text-xl sm:text-5xl font-bold text-center mb-12  pb-4 border-gray-700 ">
+          Info
         </h1>
 
         <div className="flex flex-col items-center justify-center">
@@ -93,7 +93,7 @@ const InfoPage = () => {
 
         <section className="mt-14 space-y-10 text-lg leading-relaxed">
           <div>
-            <h2 className="text-2xl font-semibold mb-3 underline text-[#f3eb00] ">This Site? It’s a Vibe Hub.</h2>
+            <h2 className="text-2xl font-semibold mb-3 underline ">This Site? It’s a Vibe Hub.</h2>
             <p>
               If you love real music, raw energy, and no-fake-zone dance floors—you’re home.
               <br />
@@ -103,7 +103,7 @@ const InfoPage = () => {
           </div>
 
           <div>
-            <h2 className="text-2xl font-semibold mb-3 underline text-[#f3eb00] ">Catch Him Live.</h2>
+            <h2 className="text-2xl font-semibold mb-3 underline ">Catch Him Live.</h2>
             <p>
               Ezell hosts DJ events where the goal is simple: forget the world and just dance.
               Safe, fun, high-vibe spaces where bills, stress, and drama don’t exist.
@@ -113,7 +113,7 @@ const InfoPage = () => {
           </div>
 
           <div>
-            <h2 className="text-2xl font-semibold mb-3 underline text-[#f3eb00] ">Join the Movement.</h2>
+            <h2 className="text-2xl font-semibold mb-3 underline">Join the Movement.</h2>
             <p>
               Sign up for the list. Get updates, event drops, new mixes, and more.
               <br />

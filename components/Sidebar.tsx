@@ -103,10 +103,11 @@ const Sidebar = ({ lightMode = false }: { lightMode?: boolean }) => {
                 ${lightMode ? 'bg-white' : 'bg-black'}`}
             >
                 <nav className="flex flex-col items-center py-30 space-y-6">
-                    {['HOME', 'MUSIC', 'INFO', 'EVENTS', 'BOOKING'].map((item) => (
+                    {['HOME', 'MUSIC', 'INFO', 'EVENTS', 'SIGN UP'].map((item) => (
                         <Link
                             key={item}
-                            href={item === 'HOME' ? '/' : `/${item.toLowerCase()}`}
+                           href={item === 'HOME' ? '/' : `/${item.toLowerCase().replace(/\s+/g, '')}`}
+
                             className={`
                                 text-xl px-6 py-3 rounded-md transform transition duration-200 hover:scale-105
                                 ${lightMode ? 'text-black hover:text-gray-600' : 'text-white hover:text-[#f3eb00]'}

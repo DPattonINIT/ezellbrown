@@ -38,7 +38,7 @@ const MailingListForm = () => {
 
   return (
     <section className="w-full max-w-md mx-auto mt-10 p-4 sm:p-6 bg-white text-black rounded-xl  backdrop-blur-md font-sans">
-      <h2 className="text-xl sm:text-2xl font-bold text-center mb-4 underline">JOIN THE MAILING LIST</h2>
+      <h2 className="text-xl sm:text-2xl font-bold text-center mb-4">SIGN UP</h2>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div className="flex flex-col gap-1 text-center">
