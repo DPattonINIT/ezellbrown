@@ -21,18 +21,19 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Links */}
-        <nav className="hidden md:flex gap-8 hover:opacity-70 transition-opacity duration-200 relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full">
-          {navLinks.map((item) => (
-            <Link
-              key={item}
-              href={`/${item.toLowerCase().replace(' ', '')}`}
-              className="text-white uppercase font-medium hover:opacity-70 transition-opacity"
-              style={{ fontSize: '24px' }}
-            >
-              {item}
-            </Link>
-          ))}
-        </nav>
+       <nav className="hidden md:flex gap-8">
+  {navLinks.map((item) => (
+    <Link
+      key={item}
+      href={`/${item.toLowerCase().replace(' ', '')}`}
+      className="relative text-white uppercase font-medium transition-opacity duration-200 text-[24px] hover:opacity-70
+                 after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full"
+    >
+      {item}
+    </Link>
+  ))}
+</nav>
+ 
 
         {/* Mobile Menu Toggle */}
         <button
