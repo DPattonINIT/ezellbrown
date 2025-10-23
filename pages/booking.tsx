@@ -88,7 +88,7 @@
 // ==============Above is the original code for BookingForm.tsx=================
 
 'use client';
-import Sidebar from '@/components/Sidebar';
+import Navbar from '@/components/Navbar';
 import { useState } from 'react';
 
 const BookingForm = () => {
@@ -124,7 +124,7 @@ const BookingForm = () => {
 
   return (
     <div className="flex bg-black min-h-screen text-white">
-      <Sidebar />
+      <Navbar />
 
       <main className="w-full px-4 sm:px-10 py-12 max-w-3xl mx-auto font-sans">
         <h2 className="text-4xl md:text-5xl font-bold mb-10 border-b pb-4 border-gray-700 text-center ">

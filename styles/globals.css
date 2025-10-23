@@ -234,14 +234,15 @@ body {
     filter: drop-shadow(0 0 8px #f3eb00);
   }
 
-  .spin-record {
-    animation: spin 4s linear infinite;
-  }
+  @keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
 
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+.spin-record {
+  animation: spin-slow 6s linear infinite;
+}
+
 
   .custom-slider {
     -webkit-appearance: none;

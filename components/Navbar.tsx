@@ -1,0 +1,78 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+
+export default function Navbar() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const navLinks = ['Music', 'Info', 'Events', 'Sign Up'];
+
+  return (
+    <header className="fixed top-0 left-0 w-full z-50 bg-transparent">
+      <div className="flex items-center justify-between px-6 py-4">
+        {/* Brand */}
+        <Link
+          href="/"
+          className="text-white font-bold uppercase tracking-widest"
+          style={{ fontSize: '54px', lineHeight: '1' }}
+        >
+          Ezell
+        </Link>
+
+        {/* Desktop Links */}
+        <nav className="hidden md:flex gap-8 hover:opacity-70 transition-opacity duration-200 relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full">
+          {navLinks.map((item) => (
+            <Link
+              key={item}
+              href={`/${item.toLowerCase().replace(' ', '')}`}
+              className="text-white uppercase font-medium hover:opacity-70 transition-opacity"
+              style={{ fontSize: '24px' }}
+            >
+              {item}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Mobile Menu Toggle */}
+        <button
+          className="md:hidden text-white p-2 z-50"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle Menu"
+        >
+          <svg
+            className="w-8 h-8"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            viewBox="0 0 24 24"
+          >
+            {mobileMenuOpen ? (
+              <path d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 bg-black/95 backdrop-blur-lg z-40 flex flex-col items-center justify-center gap-8">
+          {navLinks.map((item) => (
+            <Link
+              key={item}
+              href={`/${item.toLowerCase().replace(' ', '')}`}
+              className="text-3xl uppercase font-medium text-white hover:opacity-70 transition-opacity"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {item}
+            </Link>
+          ))}
+        </div>
+      )}
+    </header>
+  );
+}
