@@ -1,10 +1,9 @@
 // 'use client';
-
 // import { useEffect, useState } from 'react';
 // import { supabase } from '@/lib/supabase';
 // import Image from 'next/image';
 // import Player, { Song as PlayerSong } from '@/components/Player';
-// import Sidebar from '@/components/Sidebar';
+// import Navbar from '@/components/Navbar';
 
 // type Album = {
 //   id: string;
@@ -27,11 +26,8 @@
 //           .select('id,title,cover_url')
 //           .order('created_at', { ascending: false });
 
-//         if (error) {
-//           console.error('Error fetching albums:', error);
-//         } else {
-//           setAlbums(data || []);
-//         }
+//         if (error) console.error('Error fetching albums:', error);
+//         else setAlbums(data || []);
 //       } catch (err) {
 //         console.error('Error in fetchAlbums:', err);
 //       } finally {
@@ -45,22 +41,16 @@
 //   useEffect(() => {
 //     const fetchSongs = async () => {
 //       if (!selectedAlbum) return;
-
 //       setSongsLoading(true);
-//       try {
-//         console.log('Fetching songs for album:', selectedAlbum.id);
 
+//       try {
 //         const { data, error } = await supabase
 //           .from('songs')
 //           .select('*')
 //           .eq('album_id', selectedAlbum.id);
 
-//         if (error) {
-//           console.error('Error fetching songs:', error);
-//         } else {
-//           console.log('Songs data:', data);
-//           setSongs(data || []);
-//         }
+//         if (error) console.error('Error fetching songs:', error);
+//         else setSongs(data || []);
 //       } catch (err) {
 //         console.error('Error in fetchSongs:', err);
 //       } finally {
@@ -73,8 +63,6 @@
 
 //   if (loading) {
 //     return (
-       
-     
 //       <div className="min-h-screen bg-black text-white flex items-center justify-center">
 //         <p className="text-xl">Loading albums...</p>
 //       </div>
@@ -82,16 +70,16 @@
 //   }
 
 //   return (
-//      <div className="min-h-screen bg-black text-white flex">
-//       <Sidebar />
-      
-//      <div className="flex-1 ml-0 md:ml-64 transition-all duration-300">
+//     <div className="min-h-screen bg-black text-white">
+//       <Navbar />
+
+//       <div className="pt-[160px] px-4"> {/* Padding for navbar height */}
 //         <h1 className="text-4xl text-center py-8">Albums</h1>
 
 //         {albums.length === 0 ? (
 //           <p className="text-center text-gray-400">No albums found</p>
 //         ) : (
-//           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 px-4">
+//           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
 //             {albums.map((album) => (
 //               <div
 //                 key={album.id}
@@ -129,11 +117,6 @@
 //               <h2 className="text-2xl">{selectedAlbum.title}</h2>
 //             </div>
 
-//             <div className="text-center mb-4">
-//               {/* <p className="text-gray-400">Album ID: {selectedAlbum.id}</p> */}
-//               {/* <p className="text-gray-400">Songs found: {songs.length}</p> */}
-//             </div>
-
 //             {songsLoading ? (
 //               <p className="text-center text-gray-400">Loading songs...</p>
 //             ) : songs.length > 0 ? (
@@ -153,9 +136,9 @@
 //             ) : (
 //               <div className="text-center">
 //                 <p className="text-gray-400">No songs found in this album</p>
-//                 <p className="text-xs text-gray-500 mt-2">
+//                 {/* <p className="text-xs text-gray-500 mt-2">
 //                   Make sure songs are uploaded with album_id: {selectedAlbum.id}
-//                 </p>
+//                 </p> */}
 //               </div>
 //             )}
 //           </>
@@ -164,11 +147,12 @@
 //     </div>
 //   );
 // }
-// above code works, sidebar isnt removed ================================================================
+// Code above works, autoscroll funtcion isnt applied===================================================================================
+// ====================================================================================================
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { supabase } from '@/lib/supabase';
 import Image from 'next/image';
 import Player, { Song as PlayerSong } from '@/components/Player';
@@ -187,6 +171,13 @@ export default function MusicPage() {
   const [loading, setLoading] = useState(true);
   const [songsLoading, setSongsLoading] = useState(false);
 
+  // 👇 Ref for auto-scrolling to player
+  const playerRef = useRef<HTMLDivElement | null>(null);
+
+  // 👇 Optional ref for scrolling back to top
+  const topRef = useRef<HTMLDivElement | null>(null);
+
+  // Fetch albums on mount
   useEffect(() => {
     const fetchAlbums = async () => {
       try {
@@ -207,6 +198,7 @@ export default function MusicPage() {
     fetchAlbums();
   }, []);
 
+  // Fetch songs for the selected album
   useEffect(() => {
     const fetchSongs = async () => {
       if (!selectedAlbum) return;
@@ -230,6 +222,16 @@ export default function MusicPage() {
     fetchSongs();
   }, [selectedAlbum]);
 
+  // 👇 Auto-scroll to player once songs are loaded
+  useEffect(() => {
+    if (!songsLoading && selectedAlbum && playerRef.current) {
+      const timeout = setTimeout(() => {
+        playerRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+      return () => clearTimeout(timeout);
+    }
+  }, [songsLoading, selectedAlbum]);
+
   if (loading) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
@@ -242,7 +244,8 @@ export default function MusicPage() {
     <div className="min-h-screen bg-black text-white">
       <Navbar />
 
-      <div className="pt-[160px] px-4"> {/* Padding for navbar height */}
+      {/* 👇 Reference point for scrolling back to top */}
+      <div ref={topRef} className="pt-[160px] px-4">
         <h1 className="text-4xl text-center py-8">Albums</h1>
 
         {albums.length === 0 ? (
@@ -278,7 +281,13 @@ export default function MusicPage() {
           <>
             <div className="flex items-center justify-center py-6">
               <button
-                onClick={() => setSelectedAlbum(null)}
+                onClick={() => {
+                  setSelectedAlbum(null);
+                  // 👇 Optional: scroll back to top when leaving album
+                  setTimeout(() => {
+                    topRef.current?.scrollIntoView({ behavior: 'smooth' });
+                  }, 200);
+                }}
                 className="mr-4 bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded cursor-pointer"
               >
                 ← Back to Albums
@@ -300,14 +309,15 @@ export default function MusicPage() {
                     ))}
                   </ul>
                 </div>
-                <Player songs={songs} />
+
+                {/* 👇 Scroll target */}
+                <div ref={playerRef}>
+                  <Player songs={songs} />
+                </div>
               </>
             ) : (
               <div className="text-center">
                 <p className="text-gray-400">No songs found in this album</p>
-                {/* <p className="text-xs text-gray-500 mt-2">
-                  Make sure songs are uploaded with album_id: {selectedAlbum.id}
-                </p> */}
               </div>
             )}
           </>
@@ -316,3 +326,4 @@ export default function MusicPage() {
     </div>
   );
 }
+

@@ -14,10 +14,10 @@ export default function Navbar() {
         {/* Brand */}
         <Link
           href="/"
-          className="text-white font-bold uppercase tracking-widest"
-          style={{ fontSize: '54px', lineHeight: '1' }}
+          className="text-white font-bold uppercase tracking-tight"
+          style={{ fontSize: '45px', lineHeight: '1' }}
         >
-          Ezell
+          Ezell Brown
         </Link>
 
         {/* Desktop Links */}
