@@ -80,7 +80,6 @@
 // collapse navbar on code above======================================================
 // =================================================================================
 
-
 'use client';
 
 import Link from 'next/link';
@@ -89,25 +88,25 @@ export default function Navbar() {
   const navLinks = ['Music', 'Info', 'Events', 'Sign Up'];
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-transparent">
+    <header className="fixed top-0 left-0 w-full z-50 bg-transparent backdrop-blur-md">
       <div className="flex items-center justify-between px-4 sm:px-6 py-4">
         {/* Brand */}
         <Link
           href="/"
           className="text-white font-bold uppercase tracking-tight leading-none
-                     text-[28px] sm:text-[36px] md:text-[45px]"
+                     text-[24px] sm:text-[32px] md:text-[40px]"
         >
           Ezell Brown
         </Link>
 
         {/* Always visible nav links, with responsive text sizing */}
-        <nav className="flex gap-3 sm:gap-6 md:gap-8">
+        <nav className="flex gap-4 sm:gap-8 md:gap-10 ml-2 sm:ml-6 md:ml-10">
           {navLinks.map((item) => (
             <Link
               key={item}
               href={`/${item.toLowerCase().replace(' ', '')}`}
               className="relative text-white uppercase font-medium transition-opacity duration-200
-                         text-[12px] sm:text-[18px] md:text-[24px] hover:opacity-70
+                         text-[12px] sm:text-[18px] md:text-[22px] hover:opacity-70
                          after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-white
                          after:transition-all after:duration-300 hover:after:w-full"
             >
