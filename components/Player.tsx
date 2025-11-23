@@ -725,7 +725,7 @@ const Player = ({ songs }: PlayerProps) => {
         <button
           onClick={prev}
           disabled={loading}
-          className="p-2 border border-white rounded-full hover:scale-105 transition-transform"
+          className="p-2 border border-white rounded-full hover:scale-105 transition-transform cursor-pointer"
           aria-label="Previous"
         >
           <svg
@@ -742,7 +742,7 @@ const Player = ({ songs }: PlayerProps) => {
         <button
           onClick={playing ? pause : play}
           disabled={loading}
-          className="p-2 border border-white rounded-full hover:scale-105 transition-transform"
+          className="p-2 border border-white rounded-full hover:scale-105 transition-transform cursor-pointer"
           aria-label={playing ? 'Pause' : 'Play'}
         >
           {playing ? (
@@ -770,7 +770,7 @@ const Player = ({ songs }: PlayerProps) => {
         <button
           onClick={next}
           disabled={loading}
-          className="p-2 border border-white rounded-full hover:scale-105 transition-transform"
+          className="p-2 border border-white rounded-full hover:scale-105 transition-transform cursor-pointer"
           aria-label="Next"
         >
           <svg
@@ -791,7 +791,7 @@ const Player = ({ songs }: PlayerProps) => {
             link.download = `${current.title}.mp3`;
             link.click();
           }}
-          className="p-2 border border-white rounded-full hover:scale-105 transition-transform"
+          className="p-2 border border-white rounded-full hover:scale-105 transition-transform cursor-pointer"
           aria-label="Download"
         >
           <svg

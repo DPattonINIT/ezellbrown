@@ -170,7 +170,7 @@ export default function Home() {
             alt="Ezell Logo"
             width={40}
             height={40}
-            className="opacity-80"
+            className="opacity-100 filter brightness-150"
           />
         </div>
       </div>

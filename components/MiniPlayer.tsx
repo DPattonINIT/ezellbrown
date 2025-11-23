@@ -741,7 +741,7 @@ export default function MiniPlayer({ songs }: { songs: Song[] }) {
       )}
 
       {/* === Collapsed Play Button === */}
-      {!expanded && (
+      {/* {!expanded && (
         <div className="fixed bottom-4 left-6 z-50">
           <button
             onClick={togglePlay}
@@ -757,8 +757,36 @@ export default function MiniPlayer({ songs }: { songs: Song[] }) {
               <path d="M4.5 3.5v13l11-6.5-11-6.5z" />
             </svg>
           </button>
+          <p className="text-white text-center text-xs mt-1">Play Music</p>
         </div>
-      )}
+      )} */}
+
+      {/* === Collapsed Play Button === */}
+{!expanded && (
+  <div className="fixed bottom-4 left-6 z-50">
+    <div className="flex items-center gap-2">
+      {/* Text on the left */}
+
+      {/* Play Button */}
+      <button
+        onClick={togglePlay}
+        className="p-2 border border-white rounded-full text-white hover:scale-105 transition-transform duration-200 cursor-pointer"
+        aria-label="Play"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path d="M4.5 3.5v13l11-6.5-11-6.5z" />
+        </svg>
+      </button>
+      <p className="text-white text-md whitespace-nowrap">Play Music</p>
+    </div>
+  </div>
+)}
+
     </>
   );
 }
