@@ -57,7 +57,7 @@ export default function Navbar() {
         <Link
           href="/"
           className="text-white font-bold uppercase tracking-tight leading-none
-                     text-[24px] sm:text-[32px] md:text-[40px]
+                     text-[40px] sm:text-[32px] md:text-[40px]
                      text-center sm:text-left mt-2 sm:mt-0"
         >
           Ezell Brown
