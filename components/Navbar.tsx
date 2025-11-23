@@ -56,8 +56,8 @@ export default function Navbar() {
         {/* Brand — stays on left on desktop, moves below links on mobile */}
         <Link
           href="/"
-          className="text-white font-bold uppercase tracking-tight leading-none
-                     text-[40px] sm:text-[32px] md:text-[40px]
+          className="text-white font-bold uppercase tracking-widest leading-none
+                     text-[32px] sm:text-[32px] md:text-[40px]
                      text-center sm:text-left mt-2 sm:mt-0"
         >
           Ezell Brown
