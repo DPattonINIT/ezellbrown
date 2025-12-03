@@ -1,5 +1,4 @@
 'use client';
-
 import { useEffect, useState, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 import toast, { Toaster } from 'react-hot-toast';
@@ -258,6 +257,23 @@ const AdminPage = () => {
           Logout
         </button>
       </div>
+
+      {/* ANALYTICS DASHBOARD */}
+<div className="bg-[#1a1a1a] p-6 rounded-lg mb-10 border border-gray-700">
+  <h2 className="text-2xl font-bold mb-4 text-center underline">Site Analytics</h2>
+
+  <iframe
+    width="100%"
+    height="600"
+    src="https://lookerstudio.google.com/embed/reporting/c0e79329-d237-487b-b755-730cd7fb6a8a/page/JqlhF"
+    // frameBorder="0"
+    style={{ border: 0 }}
+    allowFullScreen
+    sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+  ></iframe>
+</div>
+
+
       <Toaster />
       <div className="max-w-6xl mx-auto">
         <div className="relative mb-8">

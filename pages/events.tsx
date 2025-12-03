@@ -191,7 +191,7 @@ const EventsPage = () => {
                       href={event.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-block px-4 py-2 ezellYellow font-bold rounded transition"
+                      className="inline-block px-4 py-2 ezellWhite font-bold rounded transition"
                     >
                       RSVP / Book
                     </Link>

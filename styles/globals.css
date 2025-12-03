@@ -146,6 +146,14 @@ body {
  background-color: #d6ce00; 
   color: black; 
 }
+.ezellWhite{
+  color: black;
+  background-color: white;
+}
+.ezellWhite:hover {
+ background-color: #9CA3AF; 
+  color: black; 
+}
 
 /* For Chrome, Edge, Safari */
 .custom-slider::-webkit-slider-thumb {
